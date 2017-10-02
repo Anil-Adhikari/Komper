@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "653133929096",
+    "project_id": "firebase-komper"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:653133929096:android:6eda3d19a43a8566",
+        "android_client_info": {
+          "package_name": "csci4540.ecu.komper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "653133929096-cdbsc0d96stnoksults5cd74of0c1qc0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "csci4540.ecu.komper",
+            "certificate_hash": "aa899cccc222f8dc0f913161f31484a9a0ae102e"
+          }
+        },
+        {
+          "client_id": "653133929096-o2q2oo611rr7o354lradv53vrnnq6grm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAH8JVgkQqJtAblGh1CfniSxh8HOnFwEG4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
