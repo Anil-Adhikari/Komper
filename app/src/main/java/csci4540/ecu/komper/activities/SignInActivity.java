@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -59,7 +60,6 @@ public class SignInActivity extends AppCompatActivity
                 .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions).build();
 
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-        Log.i(TAG, "About to start SIGN_IN intent");
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
@@ -72,6 +72,7 @@ public class SignInActivity extends AppCompatActivity
 
             if (signInResult.isSuccess()) {
                 GoogleSignInAccount account = signInResult.getSignInAccount();
+                Toast.makeText(this, "Welcome " + account.getDisplayName() + "!", Toast.LENGTH_SHORT).show();
                 Log.i(TAG, account.getDisplayName() + " logged in successfully!");
                 Log.i(TAG, "ID Token: " + account.getIdToken());
 
@@ -85,6 +86,7 @@ public class SignInActivity extends AppCompatActivity
                  * price of the given grocery list.
                  */
             } else {
+                Toast.makeText(this, "Sign In failed!", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "Failed to sign in to Google Account!");
                 Log.e(TAG, signInResult.getStatus().getStatusMessage());
             }
