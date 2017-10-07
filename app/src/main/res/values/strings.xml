@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Komper</string>
     <string name="OAuthClientID">653133929096-o2q2oo611rr7o354lradv53vrnnq6grm.apps.googleusercontent.com</string>
+
+    <!-- for creating grocery list -->
+    <string name="label_create_grocery_list">Create Grocery List</string>
+    <string name="label_item_name">Item Name: </string>
+    <string name="label_brand_name">Brand Name: </string>
+    <string name="label_Quantity">Quantity: </string>
+    <string name="label_expiry_date">Expiry Date: </string>
+    <string name="button_done">OK</string>
+
 </resources>

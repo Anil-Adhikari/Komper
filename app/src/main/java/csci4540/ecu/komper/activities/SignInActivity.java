@@ -76,6 +76,11 @@ public class SignInActivity extends AppCompatActivity
                 Log.i(TAG, account.getDisplayName() + " logged in successfully!");
                 Log.i(TAG, "ID Token: " + account.getIdToken());
 
+                // start new activity if signIn is successfull.
+                //Intent intent = CreateGroceryListActivity.newIntent(this);
+                //startActivity(intent);
+
+
                 /* TODO:
                  * Pass the IdToken from account.getDisplayName() to the backend to check
                  * if the user is already in our DB or not. If they are not in the database
