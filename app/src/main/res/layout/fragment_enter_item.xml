@@ -65,7 +65,9 @@
         android:textSize="20sp"
         android:layout_marginTop="10dp"
         android:id="@+id/cgl_expiry_date"
-        android:inputType="text"/>
+        android:hint="@string/hint_choose_date"
+        android:inputType="date"
+        android:textIsSelectable="true" />
 
     <Button
         android:layout_width="wrap_content"

@@ -17,7 +17,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import csci4540.ecu.komper.R;
 
@@ -35,7 +37,7 @@ public class EnterItemFragment extends Fragment {
 
     private Button mDone;
 
-    //DateFormat format = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.US);
+    DateFormat format = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.US);
 
     public static EnterItemFragment newInstance(){
         return new EnterItemFragment();
@@ -57,6 +59,7 @@ public class EnterItemFragment extends Fragment {
         mItemName = (EditText) view.findViewById(R.id.cgl_item_name);
         mBrandName = (EditText) view.findViewById(R.id.cgl_brand_name);
         mQuantity = (EditText) view.findViewById(R.id.cgl_quantity_name);
+
         mExpiryDate = (EditText) view.findViewById(R.id.cgl_expiry_date);
         mExpiryDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +82,7 @@ public class EnterItemFragment extends Fragment {
                 mGroceryList.setQuantity(Integer.parseInt(mQuantity.getText().toString()));
                 mGroceryList.setExpiryDate(mExpiryDate.getText().toString());
 
-                SQLiteHelperForCreateGroceryList sqlHelper = new SQLiteHelperForCreateGroceryList(getActivity());
+                SQLiteHelperForGroceryItem sqlHelper = new SQLiteHelperForGroceryItem(getActivity());
                 boolean result = sqlHelper.addItems(mGroceryList);
                 if(result){
                     Toast.makeText(getActivity(), "Items added successfully :) ", Toast.LENGTH_SHORT).show();
@@ -109,11 +112,11 @@ public class EnterItemFragment extends Fragment {
         }
         if(resultCode == Activity.RESULT_OK && data != null){
             Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-            mExpiryDate.setText(date.toString());
+            mExpiryDate.setText(format.format(date));
         }
     }
 
-    private static class SQLiteHelperForCreateGroceryList extends SQLiteOpenHelper{
+    private static class SQLiteHelperForGroceryItem extends SQLiteOpenHelper{
 
         private static final int DATABASE_VERSION = 1;
         private static final String DATABASE_NAME = "GroceryListDB";
@@ -128,7 +131,7 @@ public class EnterItemFragment extends Fragment {
 
         private String[] COLUMNS = {KEY_ID, KEY_ITEM_NAME, KEY_BRAND_NAME, KEY_QUANTITY, KEY_EXPIRY_DATE, KEY_CREATED_DATE};
 
-        public SQLiteHelperForCreateGroceryList(Context context){
+        public SQLiteHelperForGroceryItem(Context context){
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
 

@@ -9,5 +9,6 @@
     <string name="label_Quantity">Quantity: </string>
     <string name="label_expiry_date">Expiry Date: </string>
     <string name="button_done">OK</string>
+    <string name="hint_choose_date">Choose Date</string>
 
 </resources>
