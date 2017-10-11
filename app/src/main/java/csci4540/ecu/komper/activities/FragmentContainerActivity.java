@@ -12,7 +12,7 @@ import csci4540.ecu.komper.R;
  * Created by anil on 10/7/17.
  */
 
-public abstract class FragmentControllerActivity extends AppCompatActivity {
+public abstract class FragmentContainerActivity extends AppCompatActivity {
 
     protected abstract Fragment createFragment();
 
@@ -20,7 +20,7 @@ public abstract class FragmentControllerActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_fragment_controller);
+        setContentView(R.layout.activity_fragment_container);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment =  fm.findFragmentById(R.id.fragment_container);

@@ -1,5 +1,6 @@
 package csci4540.ecu.komper.activities;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -7,8 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +17,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+import java.util.Date;
 
 import csci4540.ecu.komper.R;
 
-public class CreateGroceryListFragment extends Fragment {
+public class EnterItemFragment extends Fragment {
+
+    private static final int REQUEST_DATE = 0;
+    private static final String DIALOG_DATE = "Dialog Date";
 
     private GroceryList mGroceryList;
 
@@ -36,8 +37,8 @@ public class CreateGroceryListFragment extends Fragment {
 
     //DateFormat format = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.US);
 
-    public static CreateGroceryListFragment newInstance(){
-        return new CreateGroceryListFragment();
+    public static EnterItemFragment newInstance(){
+        return new EnterItemFragment();
     }
 
     @Override
@@ -51,12 +52,23 @@ public class CreateGroceryListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.activity_create_grocery_list_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_enter_item, container, false);
 
         mItemName = (EditText) view.findViewById(R.id.cgl_item_name);
         mBrandName = (EditText) view.findViewById(R.id.cgl_brand_name);
         mQuantity = (EditText) view.findViewById(R.id.cgl_quantity_name);
         mExpiryDate = (EditText) view.findViewById(R.id.cgl_expiry_date);
+        mExpiryDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getFragmentManager();
+                DatePickerFragment dialog = DatePickerFragment
+                        .newInstance(new Date());
+                dialog.setTargetFragment(EnterItemFragment.this, REQUEST_DATE);
+                dialog.show(manager, DIALOG_DATE);
+
+            }
+        });
 
         mDone = (Button) view.findViewById(R.id.cgl_button_done);
         mDone.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +100,17 @@ public class CreateGroceryListFragment extends Fragment {
         mBrandName.setText(null);
         mQuantity.setText(null);
         mExpiryDate.setText(null);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode != REQUEST_DATE){
+            return;
+        }
+        if(resultCode == Activity.RESULT_OK && data != null){
+            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+            mExpiryDate.setText(date.toString());
+        }
     }
 
     private static class SQLiteHelperForCreateGroceryList extends SQLiteOpenHelper{
