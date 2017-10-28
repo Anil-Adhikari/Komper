@@ -14,4 +14,8 @@
     <string name="createlist_button">Create Grocery List</string>
     <string name="view_button">View Grocery List</string>
 
+    <string name="label_grocery_list">Enter Label</string>
+
+    <string name="menu_add_new_grocery_list">Add New</string>
+
 </resources>

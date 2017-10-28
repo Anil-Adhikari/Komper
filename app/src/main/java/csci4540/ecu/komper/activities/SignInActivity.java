@@ -18,6 +18,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import csci4540.ecu.komper.R;
+import csci4540.ecu.komper.activities.creategrocerylist.CreateGroceryListActivity;
 
 public class SignInActivity extends AppCompatActivity
         implements GoogleApiClient.OnConnectionFailedListener {
@@ -75,6 +76,9 @@ public class SignInActivity extends AppCompatActivity
                 Toast.makeText(this, "Welcome " + account.getDisplayName() + "!", Toast.LENGTH_SHORT).show();
                 Log.i(TAG, account.getDisplayName() + " logged in successfully!");
                 Log.i(TAG, "ID Token: " + account.getIdToken());
+
+                Intent intent = CreateGroceryListActivity.newIntent(this);
+                startActivity(intent);
 
                 // start new activity if signIn is successfull.
                 //Intent intent = CreateGroceryListActivity.newIntent(this);

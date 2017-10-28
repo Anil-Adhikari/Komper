@@ -1,4 +1,4 @@
-package csci4540.ecu.komper.activities;
+package csci4540.ecu.komper.activities.viewgrocerylist;
 
 import android.support.v4.app.Fragment;
 

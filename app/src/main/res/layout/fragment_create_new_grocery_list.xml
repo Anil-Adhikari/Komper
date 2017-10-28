@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/label_create_grocery_list"
+        android:textSize="30sp"
+        android:textAlignment="center"
+        android:id="@+id/cgl_top_label"
+        />
+
+    <TextView
+        android:id="@+id/cgl_label_for_enter_grocerylist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/label_grocery_list"
+        android:layout_marginTop="30dp"/>
+    <EditText
+        android:id="@+id/cgl_enter_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:inputType="text"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:text="@string/button_done"
+        android:id="@+id/cgl_button_done"/>
+
+</LinearLayout>
