@@ -13,21 +13,29 @@
       },
       "oauth_client": [
         {
-          "client_id": "653133929096-cdbsc0d96stnoksults5cd74of0c1qc0.apps.googleusercontent.com",
+          "client_id": "653133929096-dkpllsaiigbclkgtmvkut3vte356peji.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "csci4540.ecu.komper",
+            "certificate_hash": "47276183c3a897bd843f6fefd4d8133b34853137"
+          }
+        },
+        {
+          "client_id": "653133929096-87kcb1q6g608d049bkbifaqp4f6cb1h9.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "653133929096-a4e42greu8ebs09p8su81r995j87q1et.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "csci4540.ecu.komper",
             "certificate_hash": "aa899cccc222f8dc0f913161f31484a9a0ae102e"
           }
-        },
-        {
-          "client_id": "653133929096-o2q2oo611rr7o354lradv53vrnnq6grm.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAH8JVgkQqJtAblGh1CfniSxh8HOnFwEG4"
+          "current_key": "AIzaSyAxhRtzjvnlTJu6FnAIqKcMaVpXwBOiA-Y"
         }
       ],
       "services": {

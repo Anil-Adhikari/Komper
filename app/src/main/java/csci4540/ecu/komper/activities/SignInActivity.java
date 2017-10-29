@@ -95,9 +95,10 @@ public class SignInActivity extends AppCompatActivity
                  * price of the given grocery list.
                  */
             } else {
-                Toast.makeText(this, "Sign In failed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Sign In failed! ERROR: "
+                                + signInResult.getStatus().getStatusCode(), Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "Failed to sign in to Google Account!");
-                Log.e(TAG, signInResult.getStatus().getStatusMessage());
+                Log.e(TAG, String.valueOf(signInResult.getStatus().getStatusCode()));
             }
         }
     }
