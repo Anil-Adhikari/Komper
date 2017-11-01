@@ -1,4 +1,4 @@
-package csci4540.ecu.komper.activities.creategrocerylist;
+package csci4540.ecu.komper.activities.grocerylist;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,7 +52,7 @@ public class CreateGroceryListFragment extends Fragment {
             case R.id.menu_add_grocery_list:
                 GroceryList groceryList = new GroceryList();
                 KomperBase.getKomperBase(getActivity()).addGroceryList(groceryList);
-                Intent intent = AddGroceryListActivity.newIntent(getActivity(), groceryList.getID());
+                Intent intent = csci4540.ecu.komper.activities.grocerylist.AddGroceryListActivity.newIntent(getActivity(), groceryList.getID());
                 startActivity(intent);
                 return true;
             default:
@@ -64,7 +64,7 @@ public class CreateGroceryListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_create_grocery_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_create_grocerylist, container, false);
 
         mGLRecyclerView = (RecyclerView) view.findViewById(R.id.grocery_recycler_view);
         mGLRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -107,7 +107,7 @@ public class CreateGroceryListFragment extends Fragment {
         private TextView mGLPrice;
 
         public GroceryListViewHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.fragment_list_grocery_list, parent, false));
+            super(inflater.inflate(R.layout.fragment_list_grocerylist, parent, false));
 
             mGLLabel = (TextView) itemView.findViewById(R.id.gcl_label);
             mGLDate = (TextView) itemView.findViewById((R.id.gcl_date));

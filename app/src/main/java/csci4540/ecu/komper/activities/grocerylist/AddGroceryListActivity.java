@@ -17,7 +17,7 @@ public class AddGroceryListActivity extends FragmentContainerActivity {
     private static final String EXTRA_GROCERY_LIST_ID = "csci4540.ecu.komper.activities.creategrocerylist.extraId";
     @Override
     protected Fragment createFragment() {
-        return csci4540.ecu.komper.activities.grocerylist.AddGroceryListFragment.newInstance((UUID)getIntent().getSerializableExtra(EXTRA_GROCERY_LIST_ID));
+        return AddGroceryListFragment.newInstance((UUID)getIntent().getSerializableExtra(EXTRA_GROCERY_LIST_ID));
     }
 
     public static Intent newIntent(Context context, UUID uuid){

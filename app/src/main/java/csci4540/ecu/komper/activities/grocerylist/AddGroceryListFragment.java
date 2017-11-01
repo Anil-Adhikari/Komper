@@ -1,4 +1,4 @@
-package csci4540.ecu.komper.activities.creategrocerylist;
+package csci4540.ecu.komper.activities.grocerylist;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -54,7 +54,7 @@ public class AddGroceryListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_create_new_grocery_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_create_new_grocerylist, container, false);
 
         mFragmentTitle = (TextView) view.findViewById(R.id.cgl_top_label);
         mLabel = (TextView) view.findViewById(R.id.cgl_label_for_enter_grocerylist);

@@ -1,4 +1,4 @@
-package csci4540.ecu.komper.activities.creategrocerylist;
+package csci4540.ecu.komper.activities.grocerylist;
 
 import android.content.Context;
 import android.content.Intent;

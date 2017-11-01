@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.SignInActivity">
+            android:name=".activities.SignInActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,16 +18,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.creategrocerylist.CreateGroceryListActivity"
-            android:screenOrientation="portrait">
-            <!--<intent-filter>
+        <activity android:name=".activities.grocerylist.CreateGroceryListActivity">
+            <!--android:screenOrientation="portrait">
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>-->
         </activity>
-        <activity android:name=".activities.creategrocerylist.AddGroceryListActivity"
-            android:parentActivityName=".activities.creategrocerylist.CreateGroceryListActivity" />
+        <activity android:name=".activities.grocerylist.AddGroceryListActivity"
+            android:parentActivityName=".activities.grocerylist.CreateGroceryListActivity" />
     </application>
 
 </manifest>

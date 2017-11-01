@@ -18,7 +18,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import csci4540.ecu.komper.R;
-import csci4540.ecu.komper.activities.creategrocerylist.CreateGroceryListActivity;
+import csci4540.ecu.komper.activities.grocerylist.CreateGroceryListActivity;
 
 public class SignInActivity extends AppCompatActivity
         implements GoogleApiClient.OnConnectionFailedListener {
