@@ -6,15 +6,16 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import csci4540.ecu.komper.database.KomperCursorWrapper;
 import csci4540.ecu.komper.database.KomperDbSchema;
 import csci4540.ecu.komper.database.KomperDbSchema.GroceryListTable;
+import csci4540.ecu.komper.database.KomperDbSchema.ItemTable;
 import csci4540.ecu.komper.database.KomperSQLiteHelper;
 import csci4540.ecu.komper.datamodel.GroceryList;
+import csci4540.ecu.komper.datamodel.Item;
 
 /**
  * Created by anil on 10/25/17.
@@ -38,15 +39,19 @@ public class KomperBase {
         return sKomperBase;
     }
 
+    /**
+     * Methods those manipulates grocerylist data
+     */
+
     public boolean addGroceryList(GroceryList list){
 
-        ContentValues values = getContentValues(list);
+        ContentValues values = getGroceryListContentValues(list);
         long success = mDatabase.insert(GroceryListTable.NAME, null, values);
 
         return success > -1;
     }
 
-    private ContentValues getContentValues(GroceryList list){
+    private ContentValues getGroceryListContentValues(GroceryList list){
         ContentValues values = new ContentValues();
         values.put(GroceryListTable.Cols.UUID, list.getID().toString());
         values.put(GroceryListTable.Cols.LABEL, list.getLabel());
@@ -81,7 +86,7 @@ public class KomperBase {
 
     public void updateGroceryList(GroceryList grocerylist) {
         String uuidString = grocerylist.getID().toString();
-        ContentValues values = getContentValues(grocerylist);
+        ContentValues values = getGroceryListContentValues(grocerylist);
         mDatabase.update(GroceryListTable.NAME, values,
                 GroceryListTable.Cols.UUID + " = ?",
                 new String[]{uuidString});
@@ -104,6 +109,86 @@ public class KomperBase {
             cursor.close();
         }
     }
+
+    public int getNumberOfItems(UUID groceryListID){
+        String tableName = ItemTable.NAME;
+        String countQuery = "SELECT * FROM " + tableName + " WHERE " + ItemTable.Cols.GROCERYLISTID + " = ?";
+        Cursor cursor = mDatabase.rawQuery(countQuery, new String[]{groceryListID.toString()});
+        int count  = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
+    /**
+     * Methods those manipulates item data
+     */
+
+    public void addItem(Item item, UUID grocerylistId){
+        ContentValues values = getItemContentValues(item, grocerylistId);
+        mDatabase.insert(ItemTable.NAME, null, values);
+    }
+
+    public void updateItem(Item item, UUID grocerylistId){
+        ContentValues values = getItemContentValues(item, grocerylistId);
+        String whereclause = ItemTable.Cols.UUID + " = ?";
+        String[] whereArgs = new String[]{item.getItemID().toString()};
+
+        mDatabase.update(ItemTable.NAME,values, whereclause, whereArgs);
+    }
+
+    private ContentValues getItemContentValues(Item item, UUID grocerylistId) {
+        ContentValues values = new ContentValues();
+
+        values.put(ItemTable.Cols.UUID, item.getItemID().toString());
+        values.put(ItemTable.Cols.ITEMNAME, item.getItemName());
+        values.put(ItemTable.Cols.BRAND, item.getItemBrandName());
+        values.put(ItemTable.Cols.QUANTITY, item.getItemQuantity());
+        values.put(ItemTable.Cols.ENTEREDDATE, item.getItemEnteredDate().getTime());
+        values.put(ItemTable.Cols.EXPIRYDATE, item.getItemExpiryDate().getTime());
+        values.put(ItemTable.Cols.PRICE, item.getItemPrice());
+        values.put(ItemTable.Cols.GROCERYLISTID, grocerylistId.toString());
+
+        return values;
+    }
+
+    public List<Item> getAllItems(UUID groceryListID){
+        List<Item> itemList = new ArrayList<>();
+        String whereClause = ItemTable.Cols.GROCERYLISTID + " = ?";
+        String[] whereArgs = new String[]{groceryListID.toString()};
+        String tableName = ItemTable.NAME;
+
+        KomperCursorWrapper cursor = queryDb(whereClause, whereArgs, tableName);
+
+        try{
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+                itemList.add(cursor.getItem());
+                cursor.moveToNext();
+            }
+        }finally {
+            cursor.close();
+        }
+
+        return itemList;
+    }
+
+    public Item getItem(UUID itemID){
+        String whereClause = ItemTable.Cols.UUID + " = ?";
+        String[] whereArgs = new String[]{itemID.toString()};
+        String tableName = ItemTable.NAME;
+
+        KomperCursorWrapper cursor = queryDb(whereClause, whereArgs, tableName);
+        try{
+            if(cursor.getCount() == 0){
+                return null;
+            }
+            cursor.moveToFirst();
+            return cursor.getItem();
+        }finally{
+            cursor.close();
+        }
+    }
+
 
     private KomperCursorWrapper queryDb(String whereClause, String[] whereArgs, String tableName){
         Cursor cursor = mDatabase.query(tableName,

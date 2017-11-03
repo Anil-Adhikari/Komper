@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -60,6 +61,12 @@ public class AddGroceryListFragment extends Fragment {
         mLabel = (TextView) view.findViewById(R.id.cgl_label_for_enter_grocerylist);
 
         mEnterLabel = (EditText) view.findViewById(R.id.cgl_enter_label);
+        mEnterLabel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mEnterLabel.setSelection(0);
+            }
+        });
         mEnterLabel.setText(mGroceryList.getLabel());
         mEnterLabel.addTextChangedListener(new TextWatcher() {
             @Override

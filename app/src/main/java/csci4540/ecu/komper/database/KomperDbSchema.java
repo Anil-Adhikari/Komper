@@ -19,10 +19,13 @@ public class KomperDbSchema {
         public static final String NAME = "Item";
         public static final class Cols{
             public static final String UUID = "item_uuid";
-            public static final String LABEL = "item_name";
+            public static final String ITEMNAME = "item_name";
             public static final String BRAND = "item_brand";
-            public static final String Quantity = "item_quantity";
+            public static final String QUANTITY = "item_quantity";
             public static final String EXPIRYDATE = "item_expiry_date";
+            public static final String ENTEREDDATE = "item_entered_date";
+            public static final String PRICE = "item_price";
+            public static final String GROCERYLISTID = "grocerylist_id";
         }
     }
 }

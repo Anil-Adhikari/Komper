@@ -26,7 +26,7 @@ import csci4540.ecu.komper.R;
 public class DatePickerFragment extends DialogFragment {
 
     private static final String ARG_DATE = "Expiry Date";
-    public static final String EXTRA_DATE = "com.csci4540.ecu.komper.activities.creategrocerylist.CreateGroceryListFragment.datepicker";
+    public static final String EXTRA_DATE = "com.csci4540.ecu.komper.activities.creategrocerylist.ListGroceryListFragment.datepicker";
 
     private DatePicker mDatePicker;
 

@@ -15,23 +15,20 @@ public class Item {
     private Date itemExpiryDate;
     private String itemBrandName;
     private double itemQuantity;
+    private double itemPrice;
 
-    public Item(String itemName, Date itemEnteredDate, Date itemExpiryDate, String itemBrandName, double itemQuantity) {
-        this.itemID = UUID.randomUUID();
-        this.itemName = itemName;
-        this.itemEnteredDate = itemEnteredDate;
-        this.itemExpiryDate = itemExpiryDate;
-        this.itemBrandName = itemBrandName;
-        this.itemQuantity = itemQuantity;
+    public Item() {
+        this(UUID.randomUUID());
     }
 
-    public Item(){
-        this.itemID = UUID.randomUUID();
+    public Item(UUID itemID){
+        this.itemID = itemID;
         this.itemName = "";
         this.itemEnteredDate = new Date();
-        this.itemExpiryDate = null;
+        this.itemExpiryDate = new Date();
         this.itemBrandName = "";
         this.itemQuantity = 0.0;
+        this.itemPrice = 0.0;
     }
 
     public UUID getItemID() {
@@ -76,5 +73,13 @@ public class Item {
 
     public void setItemQuantity(double itemQuantity) {
         this.itemQuantity = itemQuantity;
+    }
+
+    public double getItemPrice() {
+        return itemPrice;
+    }
+
+    public void setItemPrice(double itemPrice) {
+        this.itemPrice = itemPrice;
     }
 }

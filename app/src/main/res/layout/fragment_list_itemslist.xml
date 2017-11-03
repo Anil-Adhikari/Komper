@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="10dp">
 
     <TextView
@@ -10,28 +10,31 @@
         android:layout_height="wrap_content"
         android:id="@+id/item_name"
         android:text="Item Name"
-        android:textSize="20dp"/>
+        android:textSize="15dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/item_brand_name"
         android:text="Brand Name"
-        android:textSize="20dp"/>
+        android:textSize="15dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/item_expiry_date"
         android:text="Expiry Date"
-        android:textSize="20dp"/>
+        android:textSize="15dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/item_quantity"
-        android:text="Expiry Date"
-        android:textSize="20dp"/>
+        android:text="Quantity"
+        android:textSize="15dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/item_price" />
+        android:id="@+id/item_price"
+        android:text="Price"
+        android:textSize="15dp"
+        android:layout_marginBottom="5dp"/>
 
 </LinearLayout>

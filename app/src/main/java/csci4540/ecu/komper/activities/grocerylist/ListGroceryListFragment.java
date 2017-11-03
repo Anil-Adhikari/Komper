@@ -12,9 +12,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -22,15 +25,17 @@ import csci4540.ecu.komper.R;
 import csci4540.ecu.komper.activities.KomperBase;
 import csci4540.ecu.komper.datamodel.GroceryList;
 
-public class CreateGroceryListFragment extends Fragment {
+public class ListGroceryListFragment extends Fragment {
 
     private RecyclerView mGLRecyclerView;
     private GroceryListAdapter mGLAdapter;
 
-    DateFormat dateformat = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.US);
+    DateFormat dateformat = DateFormat.getDateInstance(DateFormat.LONG, Locale.US);
+    NumberFormat numberFormat  = new DecimalFormat("##.##");
 
-    /*public static CreateGroceryListFragment newInstance(){
-        return new CreateGroceryListFragment();
+
+    /*public static ListGroceryListFragment newInstance(){
+        return new ListGroceryListFragment();
     }*/
 
     @Override
@@ -83,11 +88,11 @@ public class CreateGroceryListFragment extends Fragment {
             mGLAdapter = new GroceryListAdapter(groceryLists);
             mGLRecyclerView.setAdapter(mGLAdapter);
         } else {
-            mGLAdapter.setCrimes(groceryLists);
+            mGLAdapter.setGroceryLists(groceryLists);
             mGLAdapter.notifyDataSetChanged();
         }
-        mGLAdapter = new GroceryListAdapter(groceryLists);
-        mGLRecyclerView.setAdapter(mGLAdapter);
+        /*mGLAdapter = new GroceryListAdapter(groceryLists);
+        mGLRecyclerView.setAdapter(mGLAdapter);*/
 
     }
 
@@ -105,6 +110,8 @@ public class CreateGroceryListFragment extends Fragment {
         private TextView mGLLabel;
         private TextView mGLDate;
         private TextView mGLPrice;
+        private ListView mListView;
+        private TextView mTotalItems;
 
         public GroceryListViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.fragment_list_grocerylist, parent, false));
@@ -112,13 +119,26 @@ public class CreateGroceryListFragment extends Fragment {
             mGLLabel = (TextView) itemView.findViewById(R.id.gcl_label);
             mGLDate = (TextView) itemView.findViewById((R.id.gcl_date));
             mGLPrice = (TextView) itemView.findViewById(R.id.gcl_price);
+            //mListView = (ListView) itemView.findViewById(R.id.grocerylist_list_view);
+            mTotalItems = (TextView) itemView.findViewById(R.id.gcl_totalnumberofItems);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = LIstItemListActivity.newIntent(getActivity(), mGroceryList.getID());
+                    startActivity(intent);
+                }
+            });
         }
 
-        public void bind(GroceryList list){
+        public void bind(GroceryList list, int numberOfItems){
             mGroceryList = list;
-            mGLLabel.setText(mGroceryList.getLabel());
-            mGLDate.setText(dateformat.format(mGroceryList.getDate()));
-            mGLPrice.setText(String.format("%.2f",mGroceryList.getTotalPrice()));
+            mGLLabel.setText("List Name: " + mGroceryList.getLabel());
+            mGLDate.setText("Created Date: " + dateformat.format(mGroceryList.getDate()));
+            mGLPrice.setText("Total Price : $" + String.format("%.2f",mGroceryList.getTotalPrice()));
+            // TODO: remove gone when total price is available
+            mGLPrice.setVisibility(View.GONE);
+            mTotalItems.setText("Number of Items: " + numberOfItems);
         }
     }
     private class GroceryListAdapter extends RecyclerView.Adapter<GroceryListViewHolder>{
@@ -135,9 +155,9 @@ public class CreateGroceryListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(GroceryListViewHolder holder, int position) {
-
             GroceryList groceryList = groceryLists.get(position);
-            holder.bind(groceryList);
+            int numberOfItems = KomperBase.getKomperBase(getActivity()).getNumberOfItems(groceryList.getID());
+            holder.bind(groceryList, numberOfItems);
 
         }
 
@@ -146,7 +166,7 @@ public class CreateGroceryListFragment extends Fragment {
             return groceryLists.size();
         }
 
-        public void setCrimes(List<GroceryList> groceryLists) {
+        public void setGroceryLists(List<GroceryList> groceryLists) {
             this.groceryLists = groceryLists;
         }
     }

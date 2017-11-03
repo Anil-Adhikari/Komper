@@ -10,64 +10,70 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/label_create_grocery_list"
-        android:layout_gravity=""
         android:textSize="30sp"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:id="@+id/enteritem_heading"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:text="@string/label_item_name"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="30dp"
+        android:id="@+id/enteritem_label"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:layout_marginTop="10dp"
-        android:id="@+id/cgl_item_name"
+        android:id="@+id/enteritem_edittext_name"
+        android:inputType="text" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/label_brand_name"
+        android:id="@+id/enteritem_brandname"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/enteritem_edittext_brandname"
         android:inputType="text"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:text="@string/label_brand_name" />
+        android:text="@string/label_Quantity"
+        android:id="@+id/enteritem_quantity"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:layout_marginTop="10dp"
-        android:id="@+id/cgl_brand_name"
+        android:id="@+id/enteritem_edittext_quantity"
         android:inputType="text"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:text="@string/label_Quantity" />
+        android:text="@string/label_expiry_date"
+        android:id="@+id/enteritem_expitydate"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:layout_marginTop="10dp"
-        android:id="@+id/cgl_quantity_name"
-        android:inputType="text"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="@string/label_expiry_date" />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_marginTop="10dp"
-        android:id="@+id/cgl_expiry_date"
+        android:id="@+id/enteritem_edittext_expirydate"
         android:hint="@string/hint_choose_date"
-        android:inputType="date"
-        android:textIsSelectable="true" />
+        android:inputType="none"
+        android:textIsSelectable="true"
+        android:focusable="false"
+        />
 
     <Button
         android:layout_width="wrap_content"
@@ -75,7 +81,7 @@
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
         android:text="@string/button_done"
-        android:id="@+id/cgl_button_done"/>
+        android:id="@+id/enteritem_button_done"/>
 
 
     </LinearLayout>

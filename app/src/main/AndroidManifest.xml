@@ -13,11 +13,8 @@
         <activity
             android:name=".activities.SignInActivity"
             android:screenOrientation="portrait" />
-
-
         <activity android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,9 +23,8 @@
 
         </activity>
 
-
-
-        <activity android:name=".activities.grocerylist.CreateGroceryListActivity">
+        <activity android:name=".activities.grocerylist.ListGroceryListActivity"
+            android:label="@string/label_grocerylist">
             <!--android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,7 +32,21 @@
             </intent-filter>-->
         </activity>
         <activity android:name=".activities.grocerylist.AddGroceryListActivity"
-            android:parentActivityName=".activities.grocerylist.CreateGroceryListActivity" />
+            android:label="@string/label_create_grocerylist"
+            android:parentActivityName=".activities.grocerylist.ListGroceryListActivity" />
+
+
+        <activity android:name=".activities.grocerylist.LIstItemListActivity"
+            android:label="@string/label_itemlist"
+            android:parentActivityName=".activities.grocerylist.ListGroceryListActivity"/>
+
+        <activity android:name=".activities.grocerylist.AddItemActivity"
+            android:label="@string/label_add_newitem" />
+<!--
+            android:parentActivityName=".activities.grocerylist.LIstItemListActivity" />
+-->
+
+
     </application>
 
 </manifest>

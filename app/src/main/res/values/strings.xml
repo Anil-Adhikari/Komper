@@ -3,7 +3,7 @@
     <string name="OAuthClientID">653133929096-87kcb1q6g608d049bkbifaqp4f6cb1h9.apps.googleusercontent.com"</string>
 
     <!-- for creating grocery list -->
-    <string name="label_create_grocery_list">Create Grocery List</string>
+    <string name="label_create_grocery_list">Enter Grocery Item</string>
     <string name="label_item_name">Item Name: </string>
     <string name="label_brand_name">Brand Name: </string>
     <string name="label_Quantity">Quantity: </string>
@@ -17,5 +17,10 @@
     <string name="label_grocery_list">Enter Label</string>
 
     <string name="menu_add_new_grocery_list">Add New</string>
+
+    <string name="label_grocerylist"> Grocery Lists </string>
+    <string name="label_itemlist"> Items Lists </string>
+    <string name="label_create_grocerylist"> Create New Grocery List</string>
+    <string name="label_add_newitem">Enter Grocery Item</string>
 
 </resources>

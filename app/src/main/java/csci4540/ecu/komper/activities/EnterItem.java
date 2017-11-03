@@ -16,8 +16,8 @@ public class EnterItem {
 
     //DateFormat format = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.US);
 
-    public static CreateGroceryListFragment newInstance(){
-        return new CreateGroceryListFragment();
+    public static ListGroceryListFragment newInstance(){
+        return new ListGroceryListFragment();
     }
 
     @Override
@@ -44,7 +44,7 @@ public class EnterItem {
                 FragmentManager manager = getFragmentManager();
                 DatePickerFragment dialog = DatePickerFragment
                         .newInstance(new Date());
-                dialog.setTargetFragment(CreateGroceryListFragment.this, REQUEST_DATE);
+                dialog.setTargetFragment(ListGroceryListFragment.this, REQUEST_DATE);
                 dialog.show(manager, DIALOG_DATE);
 
             }
