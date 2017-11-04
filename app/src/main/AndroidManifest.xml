@@ -24,6 +24,7 @@
         </activity>
 
         <activity android:name=".activities.grocerylist.ListGroceryListActivity"
+            android:parentActivityName=".activities.SignInActivity"
             android:label="@string/label_grocerylist">
             <!--android:screenOrientation="portrait">
             <intent-filter>
