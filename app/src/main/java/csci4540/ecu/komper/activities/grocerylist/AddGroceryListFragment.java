@@ -64,7 +64,11 @@ public class AddGroceryListFragment extends Fragment {
         mEnterLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mEnterLabel.setSelection(0);
+                String text = mEnterLabel.getText().toString();
+                if(text.length() != 0)
+                    mEnterLabel.setSelection(text.length());
+                else
+                    mEnterLabel.setSelection(0);
             }
         });
         mEnterLabel.setText(mGroceryList.getLabel());

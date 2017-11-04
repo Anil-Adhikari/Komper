@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -25,6 +28,7 @@ import java.util.UUID;
 
 import csci4540.ecu.komper.R;
 import csci4540.ecu.komper.activities.KomperBase;
+import csci4540.ecu.komper.datamodel.GroceryList;
 import csci4540.ecu.komper.datamodel.Item;
 
 /**
@@ -115,7 +119,7 @@ public class LIstItemListFragment extends Fragment {
         updateListUI();
     }
 
-    private class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private TextView mItemName;
         private TextView mBrandName;
         private TextView mExpiryDate;
@@ -135,6 +139,7 @@ public class LIstItemListFragment extends Fragment {
             mPrice = (TextView) itemView.findViewById(R.id.item_price);
 
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         public void bind(Item item){
@@ -153,6 +158,32 @@ public class LIstItemListFragment extends Fragment {
         public void onClick(View view) {
             Intent intent = AddItemActivity.newIntent(getActivity(), mItem.getItemID(), groceryListID);
             startActivity(intent);
+        }
+
+
+        @Override
+        public boolean onLongClick(View view) {
+            PopupMenu popupMenu = new PopupMenu(getActivity(), itemView);
+            popupMenu.getMenuInflater().inflate(R.menu.popup_itemlist, popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch(item.getItemId()){
+                        case R.id.delete_item:
+                            KomperBase.getKomperBase(getActivity()).deleteItem(mItem.getItemID());
+                            updateListUI();
+                            return true;
+                        case R.id.searchinstore_item:
+                            Toast.makeText(getActivity(), "Search in Store", Toast.LENGTH_SHORT).show();
+                            return true;
+                        default:
+                            return true;
+                    }
+                }
+            });
+            popupMenu.show();
+            popupMenu.setGravity(Gravity.CENTER);
+            return true;
         }
     }
 

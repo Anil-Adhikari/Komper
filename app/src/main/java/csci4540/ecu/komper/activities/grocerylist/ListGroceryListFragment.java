@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -127,6 +130,40 @@ public class ListGroceryListFragment extends Fragment {
                 public void onClick(View view) {
                     Intent intent = LIstItemListActivity.newIntent(getActivity(), mGroceryList.getID());
                     startActivity(intent);
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    PopupMenu popupMenu = new PopupMenu(getActivity(), itemView);
+                    popupMenu.getMenuInflater().inflate(R.menu.popup_grocerylist, popupMenu.getMenu());
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch(item.getItemId()){
+                                case R.id.edit_grocerylist:
+                                    //Toast.makeText(getActivity(), "Edit GroceryList", Toast.LENGTH_SHORT).show();
+                                    Intent intent = AddGroceryListActivity.newIntent(getActivity(), mGroceryList.getID());
+                                    startActivity(intent);
+                                    return  true;
+                                case R.id.delete_grocerylist:
+                                    KomperBase.getKomperBase(getActivity()).deleteGroceryList(mGroceryList.getID());
+                                    KomperBase.getKomperBase(getActivity()).deleteItemFromGroceryList(mGroceryList.getID());
+                                    List<GroceryList> list = KomperBase.getKomperBase(getActivity()).getGorceryLists();
+                                    upDateGroceryListUI(list);
+                                    return true;
+                                case R.id.searchinstore_grocerylist:
+                                    Toast.makeText(getActivity(), "Search in Store", Toast.LENGTH_SHORT).show();
+                                    return true;
+                                default:
+                                    return true;
+                            }
+                        }
+                    });
+                    popupMenu.show();
+                    popupMenu.setGravity(Gravity.CENTER);
+                    return true;
                 }
             });
         }

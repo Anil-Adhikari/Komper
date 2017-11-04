@@ -119,6 +119,14 @@ public class KomperBase {
         return count;
     }
 
+    public void deleteGroceryList(UUID groceryListID){
+        mDatabase.delete(GroceryListTable.NAME, GroceryListTable.Cols.UUID + " = ?", new String[]{groceryListID.toString()});
+    }
+
+    public void deleteItemFromGroceryList(UUID groceryListID){
+        mDatabase.delete(ItemTable.NAME, ItemTable.Cols.GROCERYLISTID + " = ?", new String[]{groceryListID.toString()});
+    }
+
     /**
      * Methods those manipulates item data
      */
@@ -187,6 +195,10 @@ public class KomperBase {
         }finally{
             cursor.close();
         }
+    }
+
+    public void deleteItem(UUID itemID){
+        mDatabase.delete(ItemTable.NAME, ItemTable.Cols.UUID + " = ?", new String[]{itemID.toString()});
     }
 
 
