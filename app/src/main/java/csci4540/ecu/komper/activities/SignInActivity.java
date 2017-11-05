@@ -46,17 +46,12 @@ public class SignInActivity extends AppCompatActivity
     }
 
     private void StartGoogleSignIn() {
-        // Request the User's ID and basic profile info with DEFAULT_SIGN_IN option
-        // Also request the email of the user,
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                // TODO: Thoroughly understand the details of the OAuth 2.0 framework.
                 .requestIdToken(getString(R.string.OAuthClientID))
                 .requestEmail()
                 .build();
 
         GoogleApiClient googleApiClient = new GoogleApiClient.Builder(this)
-                // NOTE: Manages the client connection automatically, connecting the client
-                // NOTE: in the onStart() method and disconnecting the client in the onStop() method
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions).build();
 
@@ -80,20 +75,6 @@ public class SignInActivity extends AppCompatActivity
                 Intent intent = ListGroceryListActivity.newIntent(this);
                 startActivity(intent);
 
-                // start new activity if signIn is successfull.
-                //Intent intent = ListGroceryListActivity.newIntent(this);
-                //startActivity(intent);
-
-
-                /* TODO:
-                 * Pass the IdToken from account.getDisplayName() to the backend to check
-                 * if the user is already in our DB or not. If they are not in the database
-                 * send them to the page where they can configure their account (i.e. set up
-                 * their username and other user configurations). If they are in the database,
-                 * send them to the page where they select from a predefined collection of
-                 * grocery lists (or add a new one) and select the stores to search for the best
-                 * price of the given grocery list.
-                 */
             } else {
                 Toast.makeText(this, "Sign In failed! ERROR: "
                                 + signInResult.getStatus().getStatusCode(), Toast.LENGTH_SHORT).show();

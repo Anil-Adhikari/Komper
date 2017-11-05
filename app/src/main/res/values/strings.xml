@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Komper</string>
     <string name="OAuthClientID">653133929096-87kcb1q6g608d049bkbifaqp4f6cb1h9.apps.googleusercontent.com"</string>
+    <string name="WalMartAPIKey">sqcn99uq29ggbwj6n5ugbbrf</string>
 
     <!-- for creating grocery list -->
     <string name="label_create_grocery_list">Enter Grocery Item</string>

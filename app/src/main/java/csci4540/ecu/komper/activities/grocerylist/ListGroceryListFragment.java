@@ -154,6 +154,7 @@ public class ListGroceryListFragment extends Fragment {
                                     upDateGroceryListUI(list);
                                     return true;
                                 case R.id.searchinstore_grocerylist:
+                                    // TODO: Replace with call to WalmartRestClient method. (Ryan)
                                     Toast.makeText(getActivity(), "Search in Store", Toast.LENGTH_SHORT).show();
                                     return true;
                                 default:

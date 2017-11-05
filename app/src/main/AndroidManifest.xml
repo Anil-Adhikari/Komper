@@ -49,7 +49,7 @@
             android:parentActivityName=".activities.grocerylist.LIstItemListActivity" />
 -->
 
-
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
