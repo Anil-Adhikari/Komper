@@ -9,26 +9,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/gcl_label"
-        android:text="GroceryList Label"
+        android:text="@string/grocery_label"
         android:textSize="15dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/gcl_date"
-        android:text="GroceryList Created Date"
+        android:text="@string/date_created"
         android:textSize="15dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/gcl_price"
-        android:text="Total Price"
+        android:text="@string/total_price"
         android:textSize="15dp"
         />
     <TextView
         android:id="@+id/gcl_totalnumberofItems"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Number of Items"
+        android:text="@string/item_number"
         android:textSize="15dp"
         android:layout_marginBottom="5dp"
         />

@@ -28,4 +28,18 @@
     <string name="popup_delete">Delete</string>
     <string name="popup_search">Search In Store</string>
 
+
+    <string name="item_name">Item Name</string>
+    <string name="brand_name">Brand Name</string>
+    <string name="expiry_date">Expiry Date</string>
+    <string name="quantity">Quantity:</string>
+    <string name="price">Price:</string>
+
+
+
+    <string name="grocery_label">GroceryList Label</string>
+    <string name="date_created">GroceryList Created Date</string>
+    <string name="total_price">Total Price</string>
+    <string name="item_number">Number Of Items:</string>
+
 </resources>
