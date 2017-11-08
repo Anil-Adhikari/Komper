@@ -29,17 +29,17 @@
     <string name="popup_search">Search In Store</string>
 
 
-    <string name="item_name">Item Name</string>
-    <string name="brand_name">Brand Name</string>
-    <string name="expiry_date">Expiry Date</string>
-    <string name="quantity">Quantity:</string>
-    <string name="price">Price:</string>
+    <string name="item_name"><b><i>Item Name:</i></b> %s</string>
+    <string name="brand_name"><i>Brand Name:</i> %s</string>
+    <string name="expiry_date"><i>Expiry Date:</i> %s</string>
+    <string name="quantity"><i>Quantity:</i> %s</string>
+    <string name="price"><i>Price: $</i> %s</string>
 
 
 
-    <string name="grocery_label">GroceryList Label</string>
-    <string name="date_created">GroceryList Created Date</string>
-    <string name="total_price">Total Price</string>
-    <string name="item_number">Number Of Items:</string>
+    <string name="grocery_label"><i>Grocery List:</i> %s</string>
+    <string name="date_created"><i>Created Date:</i> %s</string>
+    <string name="total_price"><i>Total Price:</i> %s</string>
+    <string name="item_number"><i>Number Of Items:</i> %s</string>
 
 </resources>

@@ -1,12 +1,17 @@
 package csci4540.ecu.komper.activities.grocerylist;
 
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -76,6 +81,8 @@ public class ListGroceryListFragment extends Fragment {
 
         mGLRecyclerView = (RecyclerView) view.findViewById(R.id.grocery_recycler_view);
         mGLRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mGLRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL));
+        mGLRecyclerView.setHasFixedSize(true);
 
         KomperBase base = KomperBase.getKomperBase(getActivity());
 
@@ -113,12 +120,13 @@ public class ListGroceryListFragment extends Fragment {
         private TextView mGLLabel;
         private TextView mGLDate;
         private TextView mGLPrice;
-        private ListView mListView;
         private TextView mTotalItems;
+        private CardView mCardView;
 
         public GroceryListViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.fragment_list_grocerylist, parent, false));
 
+            mCardView = (CardView) itemView.findViewById(R.id.cardview_list_grocerylist);
             mGLLabel = (TextView) itemView.findViewById(R.id.gcl_label);
             mGLDate = (TextView) itemView.findViewById((R.id.gcl_date));
             mGLPrice = (TextView) itemView.findViewById(R.id.gcl_price);
@@ -171,12 +179,15 @@ public class ListGroceryListFragment extends Fragment {
 
         public void bind(GroceryList list, int numberOfItems){
             mGroceryList = list;
-            mGLLabel.setText("List Name: " + mGroceryList.getLabel());
-            mGLDate.setText("Created Date: " + dateformat.format(mGroceryList.getDate()));
-            mGLPrice.setText("Total Price : $" + String.format("%.2f",mGroceryList.getTotalPrice()));
+
+            mGLLabel.setText(getString(R.string.grocery_label, mGroceryList.getLabel()));
+
+            mGLLabel.setText(getString(R.string.grocery_label, mGroceryList.getLabel()));
+            mGLDate.setText(getString(R.string.date_created, dateformat.format(mGroceryList.getDate())));
+            mGLPrice.setText(getString(R.string.total_price, String.format("%.2f",mGroceryList.getTotalPrice())));
             // TODO: remove gone when total price is available
             mGLPrice.setVisibility(View.GONE);
-            mTotalItems.setText("Number of Items: " + numberOfItems);
+            mTotalItems.setText(getString(R.string.item_number, String.valueOf(numberOfItems)));
         }
     }
     private class GroceryListAdapter extends RecyclerView.Adapter<GroceryListViewHolder>{

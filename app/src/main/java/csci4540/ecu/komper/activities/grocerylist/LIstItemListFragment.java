@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -125,13 +127,14 @@ public class LIstItemListFragment extends Fragment {
         private TextView mExpiryDate;
         private TextView mQuantity;
         private TextView mPrice;
+        private CardView mItemCardView;
 
         private Item mItem;
 
         public ItemViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.fragment_list_itemslist, parent, false));
 
-
+            mItemCardView = (CardView) itemView.findViewById(R.id.cardview_list_itemlist);
             mItemName = (TextView) itemView.findViewById(R.id.item_name);
             mBrandName = (TextView) itemView.findViewById(R.id.item_brand_name);
             mExpiryDate = (TextView) itemView.findViewById(R.id.item_expiry_date);
@@ -145,11 +148,11 @@ public class LIstItemListFragment extends Fragment {
         public void bind(Item item){
             mItem = item;
 
-            mItemName.setText("Item Name: " + item.getItemName());
-            mBrandName.setText("Brand: " + item.getItemBrandName());
-            mExpiryDate.setText("Expiry Date: " + dateformat.format(item.getItemExpiryDate()));
-            mQuantity.setText("Quanitiy: " + numberFormat.format(item.getItemQuantity()));
-            mPrice.setText("Price: $" + String.format("%.2f",item.getItemPrice()));
+            mItemName.setText(Html.fromHtml(getString(R.string.item_name, item.getItemName())));
+            mBrandName.setText(getString(R.string.brand_name,item.getItemBrandName()));
+            mExpiryDate.setText(getString(R.string.expiry_date, dateformat.format(item.getItemExpiryDate())));
+            mQuantity.setText(getString(R.string.quantity, numberFormat.format(item.getItemQuantity())));
+            mPrice.setText(getString(R.string.price, String.format("%.2f",item.getItemPrice())));
             // TODO : remove comment when we get price form store
             mPrice.setVisibility(View.GONE);
         }

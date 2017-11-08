@@ -61,7 +61,8 @@ public class AddGroceryListFragment extends Fragment {
         mLabel = (TextView) view.findViewById(R.id.cgl_label_for_enter_grocerylist);
 
         mEnterLabel = (EditText) view.findViewById(R.id.cgl_enter_label);
-        mEnterLabel.setOnClickListener(new View.OnClickListener() {
+        mEnterLabel.getText().clear();
+        /*mEnterLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String text = mEnterLabel.getText().toString();
@@ -70,7 +71,7 @@ public class AddGroceryListFragment extends Fragment {
                 else
                     mEnterLabel.setSelection(0);
             }
-        });
+        });*/
         mEnterLabel.setText(mGroceryList.getLabel());
         mEnterLabel.addTextChangedListener(new TextWatcher() {
             @Override
