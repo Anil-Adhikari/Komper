@@ -27,6 +27,7 @@ import java.util.UUID;
 import csci4540.ecu.komper.R;
 import csci4540.ecu.komper.activities.KomperBase;
 import csci4540.ecu.komper.datamodel.Item;
+import csci4540.ecu.komper.utilities.WalmartRestClient;
 
 /**
  * Created by anil on 11/1/17.
@@ -169,6 +170,7 @@ public class AddItemFragment extends Fragment {
         super.onPause();
         mItem.setItemQuantity(Double.parseDouble(mQuantity.getText().toString()));
         KomperBase.getKomperBase(getActivity()).updateItem(mItem, grocerylistId);
+        WalmartRestClient.query(mItem.getItemName(), null);
     }
 
     @Override

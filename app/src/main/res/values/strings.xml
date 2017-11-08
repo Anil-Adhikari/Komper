@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Komper</string>
     <string name="OAuthClientID">653133929096-87kcb1q6g608d049bkbifaqp4f6cb1h9.apps.googleusercontent.com"</string>
+    <string name="WalMartAPIKey">sqcn99uq29ggbwj6n5ugbbrf</string>
 
     <!-- for creating grocery list -->
     <string name="label_create_grocery_list">Enter Grocery Item</string>
@@ -26,5 +27,19 @@
     <string name="popup_edit">Edit</string>
     <string name="popup_delete">Delete</string>
     <string name="popup_search">Search In Store</string>
+
+
+    <string name="item_name">Item Name</string>
+    <string name="brand_name">Brand Name</string>
+    <string name="expiry_date">Expiry Date</string>
+    <string name="quantity">Quantity:</string>
+    <string name="price">Price:</string>
+
+
+
+    <string name="grocery_label">GroceryList Label</string>
+    <string name="date_created">GroceryList Created Date</string>
+    <string name="total_price">Total Price</string>
+    <string name="item_number">Number Of Items:</string>
 
 </resources>
