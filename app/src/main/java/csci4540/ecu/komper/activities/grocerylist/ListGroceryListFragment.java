@@ -23,6 +23,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInApi;
+import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -40,6 +45,10 @@ public class ListGroceryListFragment extends Fragment {
 
     DateFormat dateformat = DateFormat.getDateInstance(DateFormat.LONG, Locale.US);
     NumberFormat numberFormat  = new DecimalFormat("##.##");
+
+    private static final String ARG_GOOGLE_CLIENT = "google_client";
+
+    private GoogleApiClient mGoogleClient;
 
 
     /*public static ListGroceryListFragment newInstance(){
@@ -68,9 +77,16 @@ public class ListGroceryListFragment extends Fragment {
                 Intent intent = csci4540.ecu.komper.activities.grocerylist.AddGroceryListActivity.newIntent(getActivity(), groceryList.getID());
                 startActivity(intent);
                 return true;
+            /*case R.id.signout:
+                signOut();
+                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void signOut() {
+        getActivity().finish();
     }
 
     @Nullable
@@ -78,6 +94,8 @@ public class ListGroceryListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_create_grocerylist, container, false);
+
+        //mGoogleClient = (GoogleApiClient) getArguments().getSerializable(ARG_GOOGLE_CLIENT);
 
         mGLRecyclerView = (RecyclerView) view.findViewById(R.id.grocery_recycler_view);
         mGLRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -112,6 +130,14 @@ public class ListGroceryListFragment extends Fragment {
 
         List<GroceryList> list = KomperBase.getKomperBase(getActivity()).getGorceryLists();
         upDateGroceryListUI(list);
+    }
+
+    public static ListGroceryListFragment newInstance() {
+        ListGroceryListFragment fragment = new ListGroceryListFragment();
+        /*Bundle bundle = new Bundle();
+        bundle.putSerializable(ARG_GOOGLE_CLIENT, serializableExtra);
+        fragment.setArguments(bundle);*/
+        return fragment;
     }
 
     private class GroceryListViewHolder extends RecyclerView.ViewHolder{
@@ -219,5 +245,7 @@ public class ListGroceryListFragment extends Fragment {
             this.groceryLists = groceryLists;
         }
     }
+
+
 
 }

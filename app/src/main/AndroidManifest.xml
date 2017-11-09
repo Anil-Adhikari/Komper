@@ -4,8 +4,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher_komper"
+        android:icon="@mipmap/ic_komper"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_komper"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -23,7 +24,6 @@
         </activity>
 
         <activity android:name=".activities.grocerylist.ListGroceryListActivity"
-            android:parentActivityName=".activities.SignInActivity"
             android:label="@string/label_grocerylist">
             <!--android:screenOrientation="portrait">
             <intent-filter>
@@ -32,7 +32,7 @@
             </intent-filter>-->
         </activity>
         <activity android:name=".activities.grocerylist.AddGroceryListActivity"
-            android:label="@string/label_create_grocerylist" />
+            android:label="@string/label_create_new_grocerylist" />
 <!--
             android:parentActivityName=".activities.grocerylist.ListGroceryListActivity" />
 -->

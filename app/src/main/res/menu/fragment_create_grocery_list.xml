@@ -7,5 +7,19 @@
         android:icon="@drawable/ic_add_new_grocery_list"
         app:showAsAction="ifRoom|withText"
         />
+    <!--<item
+        android:id="@+id/user_profile"
+        android:title="Profile"
+        app:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_profile"
+        android:orderInCategory="100">
+        <menu>
+                <item android:id="@+id/my_profile"
+                    android:title="My Profile" />
+                <item android:id="@+id/signout"
+                    android:title="Sign Out" />
+
+        </menu>
+    </item>-->
 
 </menu>

@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/label_create_grocery_list"
+        android:text="@string/label_create_new_grocerylist"
         android:textSize="30sp"
         android:textAlignment="center"
         android:id="@+id/cgl_top_label"

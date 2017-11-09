@@ -30,6 +30,8 @@ public class SignInActivity extends AppCompatActivity
     private static final int RC_SIGN_IN = 1;
     private static final String TAG = "SignInActivity";
 
+    private GoogleApiClient googleApiClient;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +53,7 @@ public class SignInActivity extends AppCompatActivity
                 .requestEmail()
                 .build();
 
-        GoogleApiClient googleApiClient = new GoogleApiClient.Builder(this)
+        googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions).build();
 
@@ -72,7 +74,7 @@ public class SignInActivity extends AppCompatActivity
                 Log.i(TAG, account.getDisplayName() + " logged in successfully!");
                 Log.i(TAG, "ID Token: " + account.getIdToken());
 
-                Intent intent = ListGroceryListActivity.newIntent(this);
+                Intent intent = ListGroceryListActivity.newIntent(this, googleApiClient);
                 startActivity(intent);
 
             } else {

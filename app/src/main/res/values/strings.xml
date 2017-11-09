@@ -21,7 +21,7 @@
 
     <string name="label_grocerylist"> Grocery Lists </string>
     <string name="label_itemlist"> Items Lists </string>
-    <string name="label_create_grocerylist"> Create New Grocery List</string>
+    <string name="label_create_new_grocerylist"> Create New Grocery List</string>
     <string name="label_add_newitem">Enter Grocery Item</string>
 
     <string name="popup_edit">Edit</string>
