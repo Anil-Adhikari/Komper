@@ -1,8 +1,6 @@
 package csci4540.ecu.komper.activities.grocerylist;
 
 import android.content.Intent;
-import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,7 +9,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,15 +17,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInApi;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
-import java.io.Serializable;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -37,6 +36,10 @@ import java.util.Locale;
 import csci4540.ecu.komper.R;
 import csci4540.ecu.komper.activities.KomperBase;
 import csci4540.ecu.komper.datamodel.GroceryList;
+import csci4540.ecu.komper.datamodel.Item;
+import csci4540.ecu.komper.utilities.WalmartRestClient;
+import csci4540.ecu.komper.utilities.WalmartRestClientHelper;
+import cz.msebera.android.httpclient.Header;
 
 public class ListGroceryListFragment extends Fragment {
 
@@ -47,6 +50,7 @@ public class ListGroceryListFragment extends Fragment {
     NumberFormat numberFormat  = new DecimalFormat("##.##");
 
     private static final String ARG_GOOGLE_CLIENT = "google_client";
+    private static final String TAG = "ListGroceryListFragment";
 
     private GoogleApiClient mGoogleClient;
 
@@ -104,7 +108,7 @@ public class ListGroceryListFragment extends Fragment {
 
         KomperBase base = KomperBase.getKomperBase(getActivity());
 
-        List<GroceryList> list = base.getGorceryLists();
+        List<GroceryList> list = base.getGroceryLists();
         upDateGroceryListUI(list);
 
         return view;
@@ -128,7 +132,7 @@ public class ListGroceryListFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        List<GroceryList> list = KomperBase.getKomperBase(getActivity()).getGorceryLists();
+        List<GroceryList> list = KomperBase.getKomperBase(getActivity()).getGroceryLists();
         upDateGroceryListUI(list);
     }
 
@@ -184,12 +188,42 @@ public class ListGroceryListFragment extends Fragment {
                                 case R.id.delete_grocerylist:
                                     KomperBase.getKomperBase(getActivity()).deleteGroceryList(mGroceryList.getID());
                                     KomperBase.getKomperBase(getActivity()).deleteItemFromGroceryList(mGroceryList.getID());
-                                    List<GroceryList> list = KomperBase.getKomperBase(getActivity()).getGorceryLists();
+                                    List<GroceryList> list = KomperBase.getKomperBase(getActivity()).getGroceryLists();
                                     upDateGroceryListUI(list);
                                     return true;
                                 case R.id.searchinstore_grocerylist:
-                                    // TODO: Replace with call to WalmartRestClient method. (Ryan)
-                                    Toast.makeText(getActivity(), "Search in Store", Toast.LENGTH_SHORT).show();
+                                    List<Item> items = KomperBase.getKomperBase(getActivity()).getAllItems(mGroceryList.getID());
+                                    for (Item groceryItem : items) {
+                                        WalmartRestClient.query(
+                                                getActivity(),                          // Context
+                                                groceryItem.getItemName(),              // Item name to search
+                                                null, new JsonHttpResponseHandler() {   // Handler for search response
+                                                    @Override
+                                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                                        try {
+                                                            JSONArray itemsList = (JSONArray) response.get("items");
+                                                            JSONObject item = (JSONObject) itemsList.get(0);
+                                                            Toast.makeText(getActivity(),
+                                                                    item.getString("name") + " " + String.valueOf(item.getDouble("salePrice")),
+                                                                    Toast.LENGTH_SHORT).show();
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                                                        // NOTE: Seems necessary to satisfy loopj.
+                                                        super.onFailure(statusCode, headers, throwable, errorResponse);
+                                                        throwable.printStackTrace();
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                                        Log.d(TAG, responseString);
+                                                    }
+                                                });
+                                    }
                                     return true;
                                 default:
                                     return true;

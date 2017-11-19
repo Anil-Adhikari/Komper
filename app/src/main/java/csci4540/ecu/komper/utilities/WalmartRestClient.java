@@ -1,5 +1,6 @@
 package csci4540.ecu.komper.utilities;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -21,31 +22,10 @@ import cz.msebera.android.httpclient.Header;
 public class WalmartRestClient {
     private static final String TAG = "WalmartRestClient";
 
-    public static void query(@NonNull String query, @Nullable WalmartSearchParams params) {
+    public static void query(Context context, @NonNull String query, @Nullable WalmartSearchParams params,
+                             @NonNull JsonHttpResponseHandler handler) {
         if (params == null) {
-            WalmartRestClientHelper.GET("&query=" + query, null, new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    if (statusCode == 200) {
-                        try {
-                            JSONArray items = response.getJSONArray("items");
-                            JSONObject firstItem = (JSONObject) items.get(0);
-                            Log.e(TAG, String.valueOf(firstItem.getDouble("salePrice")));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        Log.e(TAG, String.valueOf(statusCode));
-                    }
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    super.onFailure(statusCode, headers, responseString, throwable);
-
-                    Log.e(TAG, responseString);
-                }
-            });
+            WalmartRestClientHelper.GET(context, "query=" + query, null, handler);
         }
     }
 }

@@ -170,7 +170,6 @@ public class AddItemFragment extends Fragment {
         super.onPause();
         mItem.setItemQuantity(Double.parseDouble(mQuantity.getText().toString()));
         KomperBase.getKomperBase(getActivity()).updateItem(mItem, grocerylistId);
-        WalmartRestClient.query(mItem.getItemName(), null);
     }
 
     @Override

@@ -61,7 +61,7 @@ public class KomperBase {
         return values;
     }
 
-    public List<GroceryList> getGorceryLists() {
+    public List<GroceryList> getGroceryLists() {
         String tableName = GroceryListTable.NAME;
         List<GroceryList> lists = new ArrayList<>();
 
