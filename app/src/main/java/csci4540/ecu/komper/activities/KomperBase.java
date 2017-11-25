@@ -13,9 +13,13 @@ import csci4540.ecu.komper.database.KomperCursorWrapper;
 import csci4540.ecu.komper.database.KomperDbSchema;
 import csci4540.ecu.komper.database.KomperDbSchema.GroceryListTable;
 import csci4540.ecu.komper.database.KomperDbSchema.ItemTable;
+import csci4540.ecu.komper.database.KomperDbSchema.PriceTable;
+import csci4540.ecu.komper.database.KomperDbSchema.StoreTable;
 import csci4540.ecu.komper.database.KomperSQLiteHelper;
 import csci4540.ecu.komper.datamodel.GroceryList;
 import csci4540.ecu.komper.datamodel.Item;
+import csci4540.ecu.komper.datamodel.Price;
+import csci4540.ecu.komper.datamodel.Store;
 
 /**
  * Created by anil on 10/25/17.
@@ -201,6 +205,166 @@ public class KomperBase {
         mDatabase.delete(ItemTable.NAME, ItemTable.Cols.UUID + " = ?", new String[]{itemID.toString()});
     }
 
+    /***
+     * Methods for manipulating store data
+     */
+    public void addStore(Store store){
+        ContentValues values = getStoreContentValues(store);
+        mDatabase.insert(StoreTable.NAME, null, values);
+    }
+
+    private ContentValues getStoreContentValues(Store store){
+        ContentValues values = new ContentValues();
+        values.put(StoreTable.Cols.UUID, store.getStoreId().toString());
+        values.put(StoreTable.Cols.STORENAME, store.getStoreName());
+        values.put(StoreTable.Cols.ADDRESS, store.getStoreaddress());
+        values.put(StoreTable.Cols.LONGITUDE, store.getLongitude());
+        values.put(StoreTable.Cols.LATITUDE, store.getLatitude());
+        values.put(StoreTable.Cols.SELECTED, store.getSelected());
+
+        return values;
+    }
+
+    public List<Store> getStores(){
+        List<Store> storeList = new ArrayList<>();
+        String tableName = StoreTable.NAME;
+
+        KomperCursorWrapper cursor = queryDb(null, null, tableName);
+
+        try{
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+                storeList.add(cursor.getStore());
+                cursor.moveToNext();
+            }
+        }finally {
+            cursor.close();
+        }
+
+        return storeList;
+    }
+
+    public List<Store> getSelectedStore(){
+        List<Store> storeList = new ArrayList<>();
+        String tableName = StoreTable.NAME;
+        String whereClause = StoreTable.Cols.SELECTED + " = ?";
+        String[] whereArgs = new String[]{"yes"};
+
+        KomperCursorWrapper cursor = queryDb(whereClause, whereArgs, tableName);
+
+        try{
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+                storeList.add(cursor.getStore());
+                cursor.moveToNext();
+            }
+        }finally {
+            cursor.close();
+        }
+
+        return storeList;
+    }
+
+    public void updateStore(Store store){
+        ContentValues values = getStoreContentValues(store);
+        mDatabase.update(StoreTable.NAME, values, StoreTable.Cols.UUID + " = ?", new String[]{store.getStoreId().toString()});
+    }
+
+    public Store getStore(UUID storeId) {
+        String whereClause = StoreTable.Cols.UUID + " = ?";
+        String[] whereArgs = new String[]{storeId.toString()};
+        String tableName = StoreTable.NAME;
+
+        KomperCursorWrapper cursor = queryDb(whereClause, whereArgs, tableName);
+        try{
+            if(cursor.getCount() == 0){
+                return null;
+            }
+            cursor.moveToFirst();
+            return cursor.getStore();
+        }finally{
+            cursor.close();
+        }
+    }
+
+    /***
+     *Methods to manipulate price from the searched store
+     */
+    public void addPrice(Price price){
+        ContentValues values = getPriceContentValues(price);
+        mDatabase.insert(PriceTable.NAME, null, values);
+    }
+
+    public void updatePrice(Price price, UUID oldpriceid){
+        ContentValues values = getPriceContentValues(price);
+        mDatabase.update(PriceTable.NAME, values, PriceTable.Cols.UUID + " = ?", new String[]{oldpriceid.toString()});
+    }
+
+    public void deletePrice(Price price){
+        mDatabase.delete(PriceTable.NAME, PriceTable.Cols.UUID + " = ?", new String[]{price.getPriceId().toString()});
+    }
+
+    public List<Price> getPrices(UUID grocerylistID, UUID storeID){
+        List<Price> priceList = new ArrayList<>();
+        String tableName = PriceTable.NAME;
+        String whereclause = PriceTable.Cols.GROCERYLISTID + " = ?" + " AND " +
+                             PriceTable.Cols.STOREID + " = ? ";
+        String [] whereargs = new String[]{grocerylistID.toString(), storeID.toString()};
+
+        KomperCursorWrapper cursor = queryDb(whereclause, whereargs, tableName);
+
+        try{
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+                priceList.add(cursor.getPrice());
+                cursor.moveToNext();
+            }
+        }finally {
+            cursor.close();
+        }
+
+        return priceList;
+    }
+
+    public Price getPrice(UUID grocerylistID, UUID storeID, UUID itemID){
+        List<Price> priceList = new ArrayList<>();
+        String tableName = PriceTable.NAME;
+        String whereclause = PriceTable.Cols.GROCERYLISTID + " = ?" + " AND " +
+                PriceTable.Cols.ITEMID + " = ?" + " AND " +
+                PriceTable.Cols.STOREID + " = ?";
+        String [] whereargs = new String[]{grocerylistID.toString(), itemID.toString(), storeID.toString()};
+
+        KomperCursorWrapper cursor = queryDb(whereclause, whereargs, tableName);
+
+        try{
+            if(cursor.getCount() == 0){
+                return null;
+            }
+            cursor.moveToFirst();
+            return cursor.getPrice();
+        }finally {
+            cursor.close();
+        }
+    }
+
+    private ContentValues getPriceContentValues(Price price) {
+        ContentValues values = new ContentValues();
+        values.put(PriceTable.Cols.UUID, price.getPriceId().toString());
+        values.put(PriceTable.Cols.GROCERYLISTID, price.getGrocerylistId().toString());
+        values.put(PriceTable.Cols.STOREID, price.getStoreId().toString());
+        values.put(PriceTable.Cols.ITEMID, price.getItemId().toString());
+        values.put(PriceTable.Cols.PRICE, price.getPrice());
+        return values;
+    }
+
+    public double getTotalPrice(UUID grocerylistid, UUID storeid){
+        List<Price> prices = getPrices(grocerylistid, storeid);
+        double totalprice = 0.0;
+        for(Price price : prices){
+            totalprice += Double.parseDouble(price.getPrice());
+        }
+        return totalprice;
+    }
 
     private KomperCursorWrapper queryDb(String whereClause, String[] whereArgs, String tableName){
         Cursor cursor = mDatabase.query(tableName,
@@ -212,5 +376,6 @@ public class KomperBase {
                 null);
         return new KomperCursorWrapper(cursor);
     }
+
 
 }

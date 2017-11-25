@@ -9,7 +9,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,14 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -35,11 +28,8 @@ import java.util.Locale;
 
 import csci4540.ecu.komper.R;
 import csci4540.ecu.komper.activities.KomperBase;
+import csci4540.ecu.komper.activities.stores.StoreActivity;
 import csci4540.ecu.komper.datamodel.GroceryList;
-import csci4540.ecu.komper.datamodel.Item;
-import csci4540.ecu.komper.utilities.WalmartRestClient;
-import csci4540.ecu.komper.utilities.WalmartRestClientHelper;
-import cz.msebera.android.httpclient.Header;
 
 public class ListGroceryListFragment extends Fragment {
 
@@ -97,7 +87,7 @@ public class ListGroceryListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_create_grocerylist, container, false);
+        View view = inflater.inflate(R.layout.fragment_view_grocerylist, container, false);
 
         //mGoogleClient = (GoogleApiClient) getArguments().getSerializable(ARG_GOOGLE_CLIENT);
 
@@ -151,16 +141,13 @@ public class ListGroceryListFragment extends Fragment {
         private TextView mGLDate;
         private TextView mGLPrice;
         private TextView mTotalItems;
-        private CardView mCardView;
 
         public GroceryListViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.fragment_list_grocerylist, parent, false));
 
-            mCardView = (CardView) itemView.findViewById(R.id.cardview_list_grocerylist);
             mGLLabel = (TextView) itemView.findViewById(R.id.gcl_label);
             mGLDate = (TextView) itemView.findViewById((R.id.gcl_date));
             mGLPrice = (TextView) itemView.findViewById(R.id.gcl_price);
-            //mListView = (ListView) itemView.findViewById(R.id.grocerylist_list_view);
             mTotalItems = (TextView) itemView.findViewById(R.id.gcl_totalnumberofItems);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -192,7 +179,9 @@ public class ListGroceryListFragment extends Fragment {
                                     upDateGroceryListUI(list);
                                     return true;
                                 case R.id.searchinstore_grocerylist:
-                                    List<Item> items = KomperBase.getKomperBase(getActivity()).getAllItems(mGroceryList.getID());
+                                    Intent intent2 = StoreActivity.newIntent(getActivity(), mGroceryList.getID());
+                                    startActivity(intent2);
+                                    /*List<Item> items = KomperBase.getKomperBase(getActivity()).getAllItems(mGroceryList.getID());
                                     for (Item groceryItem : items) {
                                         WalmartRestClient.query(
                                                 getActivity(),                          // Context
@@ -223,7 +212,7 @@ public class ListGroceryListFragment extends Fragment {
                                                         Log.d(TAG, responseString);
                                                     }
                                                 });
-                                    }
+                                    }*/
                                     return true;
                                 default:
                                     return true;

@@ -28,4 +28,26 @@ public class KomperDbSchema {
             public static final String GROCERYLISTID = "grocerylist_id";
         }
     }
+    public static final class StoreTable{
+        public static final String NAME = "Store";
+        public static final class Cols{
+            public static final String UUID = "store_uuid";
+            public static final String STORENAME = "store_name";
+            public static final String ADDRESS = "store_address";
+            public static final String LONGITUDE = "store_longitude";
+            public static final String LATITUDE = "store_latitude";
+            public static final String SELECTED = "store_selected";
+
+        }
+    }
+    public static final class PriceTable{
+        public static final String NAME = "Price";
+        public static final class Cols{
+            public static final String UUID = "price_uuid";
+            public static final String GROCERYLISTID = "price_grocerylistid";
+            public static final String STOREID = "price_storeid";
+            public static final String ITEMID = "price_itemid";
+            public static final String PRICE = "price";
+        }
+    }
 }

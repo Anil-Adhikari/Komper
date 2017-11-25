@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cardview_price_list_grocerylist">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/price_gcl_label"
+                android:text="@string/grocery_label"
+                android:textSize="15dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/price_gcl_date"
+                android:text="@string/date_created"
+                android:textSize="15dp"/>
+            <TextView
+                android:id="@+id/price_gcl_totalnumberofItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/item_number"
+                android:textSize="15dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/price_gcl_totalprice"
+                android:text="@string/total_price"
+                android:textSize="15dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/price_storename"
+                android:text="@string/store_name"
+                android:textSize="15dp"
+                android:layout_marginBottom="5dp"
+                />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

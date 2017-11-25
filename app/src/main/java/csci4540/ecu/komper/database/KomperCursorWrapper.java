@@ -10,8 +10,12 @@ import java.util.concurrent.Exchanger;
 
 import csci4540.ecu.komper.database.KomperDbSchema.GroceryListTable;
 import csci4540.ecu.komper.database.KomperDbSchema.ItemTable;
+import csci4540.ecu.komper.database.KomperDbSchema.PriceTable;
+import csci4540.ecu.komper.database.KomperDbSchema.StoreTable;
 import csci4540.ecu.komper.datamodel.GroceryList;
 import csci4540.ecu.komper.datamodel.Item;
+import csci4540.ecu.komper.datamodel.Price;
+import csci4540.ecu.komper.datamodel.Store;
 
 /**
  * Created by anil on 10/24/17.
@@ -55,5 +59,37 @@ public class KomperCursorWrapper extends CursorWrapper {
         item.setItemExpiryDate(new Date(expiryDate));
 
         return item;
+    }
+
+    public Store getStore() {
+        String uuidString = getString(getColumnIndex(StoreTable.Cols.UUID));
+        String storeName = getString(getColumnIndex(StoreTable.Cols.STORENAME));
+        String storeAddress = getString(getColumnIndex(StoreTable.Cols.ADDRESS));
+        String longitude = getString(getColumnIndex(StoreTable.Cols.LONGITUDE));
+        String latitude = getString(getColumnIndex(StoreTable.Cols.LATITUDE));
+        String selected = getString(getColumnIndex(StoreTable.Cols.SELECTED));
+
+        Store store = new Store(UUID.fromString(uuidString));
+        store.setStoreName(storeName);
+        store.setStoreaddress(storeAddress);
+        store.setLongitude(longitude);
+        store.setLatitude(latitude);
+        store.setSelected(selected);
+        return store;
+    }
+
+    public Price getPrice() {
+        String uuidString = getString(getColumnIndex(PriceTable.Cols.UUID));
+        String grocerylistid = getString(getColumnIndex(PriceTable.Cols.GROCERYLISTID));
+        String storeid = getString(getColumnIndex(PriceTable.Cols.STOREID));
+        String itemid = getString(getColumnIndex(PriceTable.Cols.ITEMID));
+        String price = getString(getColumnIndex(PriceTable.Cols.PRICE));
+
+        Price myprice = new Price(UUID.fromString(uuidString));
+        myprice.setGrocerylistId(UUID.fromString(grocerylistid));
+        myprice.setStoreId(UUID.fromString(storeid));
+        myprice.setItemId(UUID.fromString(itemid));
+        myprice.setPrice(price);
+        return myprice;
     }
 }
