@@ -293,11 +293,13 @@ public class KomperBase {
     public void addPrice(Price price){
         ContentValues values = getPriceContentValues(price);
         mDatabase.insert(PriceTable.NAME, null, values);
+
     }
 
     public void updatePrice(Price price, UUID oldpriceid){
         ContentValues values = getPriceContentValues(price);
         mDatabase.update(PriceTable.NAME, values, PriceTable.Cols.UUID + " = ?", new String[]{oldpriceid.toString()});
+
     }
 
     public void deletePrice(Price price){
@@ -327,7 +329,6 @@ public class KomperBase {
     }
 
     public Price getPrice(UUID grocerylistID, UUID storeID, UUID itemID){
-        List<Price> priceList = new ArrayList<>();
         String tableName = PriceTable.NAME;
         String whereclause = PriceTable.Cols.GROCERYLISTID + " = ?" + " AND " +
                 PriceTable.Cols.ITEMID + " = ?" + " AND " +
@@ -361,7 +362,8 @@ public class KomperBase {
         List<Price> prices = getPrices(grocerylistid, storeid);
         double totalprice = 0.0;
         for(Price price : prices){
-            totalprice += Double.parseDouble(price.getPrice());
+            double quantity = getItem(price.getItemId()).getItemQuantity();
+            totalprice += Double.parseDouble(price.getPrice()) * quantity;
         }
         return totalprice;
     }

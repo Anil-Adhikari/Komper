@@ -148,7 +148,7 @@ public class LIstItemListFragment extends Fragment {
         public void bind(Item item){
             mItem = item;
 
-            mItemName.setText(Html.fromHtml(getString(R.string.item_name, item.getItemName())));
+            mItemName.setText(getString(R.string.item_name, item.getItemName()));
             mBrandName.setText(getString(R.string.brand_name,item.getItemBrandName()));
             mExpiryDate.setText(getString(R.string.expiry_date, dateformat.format(item.getItemExpiryDate())));
             mQuantity.setText(getString(R.string.quantity, numberFormat.format(item.getItemQuantity())));

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -28,7 +27,7 @@ import java.util.Locale;
 
 import csci4540.ecu.komper.R;
 import csci4540.ecu.komper.activities.KomperBase;
-import csci4540.ecu.komper.activities.stores.StoreActivity;
+import csci4540.ecu.komper.activities.searchresult.StoreActivity;
 import csci4540.ecu.komper.datamodel.GroceryList;
 
 public class ListGroceryListFragment extends Fragment {

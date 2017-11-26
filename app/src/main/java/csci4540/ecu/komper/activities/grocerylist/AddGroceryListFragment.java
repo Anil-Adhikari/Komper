@@ -1,5 +1,6 @@
 package csci4540.ecu.komper.activities.grocerylist;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -62,16 +63,10 @@ public class AddGroceryListFragment extends Fragment {
 
         mEnterLabel = (EditText) view.findViewById(R.id.cgl_enter_label);
         mEnterLabel.getText().clear();
-        /*mEnterLabel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String text = mEnterLabel.getText().toString();
-                if(text.length() != 0)
-                    mEnterLabel.setSelection(text.length());
-                else
-                    mEnterLabel.setSelection(0);
-            }
-        });*/
+        mEnterLabel.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
         mEnterLabel.setText(mGroceryList.getLabel());
         mEnterLabel.addTextChangedListener(new TextWatcher() {
             @Override
@@ -93,6 +88,8 @@ public class AddGroceryListFragment extends Fragment {
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(mEnterLabel.getWindowToken(), 0);
                 onPause();
                 getActivity().finish();
             }

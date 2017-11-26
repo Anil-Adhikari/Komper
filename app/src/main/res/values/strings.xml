@@ -39,10 +39,12 @@
 
     <string name="grocery_label"><i>Grocery List:</i> %s</string>
     <string name="date_created"><i>Created Date:</i> %s</string>
-    <string name="total_price"><i>Total Price:</i> %s</string>
+    <string name="total_price"><i>Total Price: $</i> %s</string>
     <string name="item_number"><i>Number Of Items:</i> %s</string>
     <string name="store_name"><i>Store Name:</i> %s</string>
 
     <string name="search_button">Search</string>
+    <string name="view_result">View Result</string>
+    <string name="checkout">Checkout</string>
 
 </resources>

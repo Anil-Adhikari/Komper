@@ -1,8 +1,9 @@
-package csci4540.ecu.komper.activities.stores;
+package csci4540.ecu.komper.activities.searchresult;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,7 +29,6 @@ import java.util.UUID;
 
 import csci4540.ecu.komper.R;
 import csci4540.ecu.komper.activities.KomperBase;
-import csci4540.ecu.komper.database.KomperDbSchema;
 import csci4540.ecu.komper.datamodel.Item;
 import csci4540.ecu.komper.datamodel.Price;
 import csci4540.ecu.komper.datamodel.Store;
@@ -53,6 +53,8 @@ public class StoreFragment extends Fragment {
     private UUID mGroceryListID;
     private Price mPrice;
 
+    private boolean searchStatus;
+
     private ProgressDialog progress;
 
     public static StoreFragment newInstance(UUID grocerylistID) {
@@ -67,9 +69,12 @@ public class StoreFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mGroceryListID = (UUID)getArguments().getSerializable(ARG_GROCERYLISTID);
+
         progress = new ProgressDialog(getActivity());
-        progress.setTitle("Fetching Item Information");
-        progress.setMessage("Fetching item information.....");
+        progress.setTitle("Lookup In Store");
+        progress.setMessage("Fetching item information");
+
+        searchStatus = false;
     }
 
     @Nullable
@@ -85,45 +90,39 @@ public class StoreFragment extends Fragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean result = false;
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.show();
-                    }
-                });
-                List<Store> selectedStores = KomperBase.getKomperBase(getActivity()).getSelectedStore();
-                if(selectedStores.size() != 0){
-                    for(Store store : selectedStores){
-                        result = searchInStore(store);
-                    }
-                }
-                else{
-                    Toast.makeText(getActivity(), "Please select stores", Toast.LENGTH_SHORT).show();
+                if (!searchStatus) {
                     getActivity().runOnUiThread(new Runnable() {
-                        @Override
                         public void run() {
-                            progress.dismiss();
+                            progress.show();
+                            searchButton.post(new Runnable() {
+                                public void run() {
+                                    searchButton.setText(R.string.view_result);
+                                }
+                            });
                         }
                     });
-                }
-                if(result) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            progress.dismiss();
+
+                    List<Store> selectedStores = KomperBase.getKomperBase(getActivity()).getSelectedStore();
+                    if (selectedStores.size() != 0) {
+                        for (Store store : selectedStores) {
+                            searchInStore(store);
                         }
-                    });
+                        //showResult();
+                    } else {
+                        Toast.makeText(getActivity(), "Please select store", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
                     showResult();
                 }
             }
         });
 
+
         return view;
 
     }
 
-    private boolean searchInStore(final Store store) {
+    private void searchInStore(final Store store){
         if(store.getStoreName().equals(WALMART)) {
             List<Item> items = KomperBase.getKomperBase(getActivity()).getAllItems(mGroceryListID);
             if (items.size() > 0) {
@@ -145,17 +144,15 @@ public class StoreFragment extends Fragment {
                                             Price oldprice = KomperBase.getKomperBase(getActivity()).getPrice(mGroceryListID, store.getStoreId(), groceryItem.getItemID());
                                             KomperBase.getKomperBase(getActivity()).updatePrice(mPrice, oldprice.getPriceId());
                                         }
-
-                                        Toast.makeText(getActivity(),
+                                        /*Toast.makeText(getActivity(),
                                                 item.getString("name") + " " + String.valueOf(item.getDouble("salePrice")),
-                                                Toast.LENGTH_SHORT).show();
-
+                                                Toast.LENGTH_SHORT).show();*/
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
-
+                                    searchStatus = true;
+                                    progress.dismiss();
                                 }
-
                                 @Override
                                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                                     // NOTE: Seems necessary to satisfy loopj.
@@ -166,36 +163,26 @@ public class StoreFragment extends Fragment {
                                 @Override
                                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                     Log.d(TAG, responseString);
+                                    progress.dismiss();
+                                    searchButton.setText(R.string.search_button);
                                 }
                             });
                     mPrice = null;
                 }
-                return true;
             } else{
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                    }
-                });
                 Toast.makeText(getActivity(), "Grocery list does not have any item", Toast.LENGTH_SHORT).show();
+                searchStatus = false;
             }
         }else if (store.getStoreName().equals(KOMPER)) {
             Toast.makeText(getActivity(), "Store: " + KOMPER, Toast.LENGTH_SHORT).show();
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    progress.dismiss();
-                }
-            });
-            return true;
         }
-        return false;
     }
 
     private void showResult() {
-        Intent intent = PriceResultActivity.newIntent(getActivity(), mGroceryListID);
-        startActivity(intent);
+        if(searchStatus) {
+            Intent intent = PriceResultActivity.newIntent(getActivity(), mGroceryListID);
+            startActivity(intent);
+        }
     }
 
     private void updateUI() {

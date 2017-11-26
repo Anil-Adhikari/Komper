@@ -47,10 +47,12 @@
 <!--
             android:parentActivityName=".activities.grocerylist.LIstItemListActivity" />
 -->
-        <activity android:name=".activities.stores.StoreActivity"
+        <activity android:name=".activities.searchresult.StoreActivity"
             android:label="Select Store"/>
-        <activity android:name=".activities.stores.PriceResultActivity"
+        <activity android:name=".activities.searchresult.PriceResultActivity"
             android:label="Search Result"/>
+        <activity android:name=".activities.searchresult.ItemPriceActivity"
+            android:label="Item Price Detail" />
 
     </application>
 

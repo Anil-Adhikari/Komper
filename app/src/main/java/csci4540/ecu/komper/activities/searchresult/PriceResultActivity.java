@@ -1,4 +1,4 @@
-package csci4540.ecu.komper.activities.stores;
+package csci4540.ecu.komper.activities.searchresult;
 
 import android.content.Context;
 import android.content.Intent;

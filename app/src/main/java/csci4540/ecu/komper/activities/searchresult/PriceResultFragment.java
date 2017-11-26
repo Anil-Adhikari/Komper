@@ -1,9 +1,10 @@
-package csci4540.ecu.komper.activities.stores;
+package csci4540.ecu.komper.activities.searchresult;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,14 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import csci4540.ecu.komper.R;
 import csci4540.ecu.komper.activities.KomperBase;
-import csci4540.ecu.komper.datamodel.GroceryList;
-import csci4540.ecu.komper.datamodel.Price;
 import csci4540.ecu.komper.datamodel.Store;
 
 /**
@@ -37,6 +38,8 @@ public class PriceResultFragment extends Fragment{
     private RecyclerView mPriceRecyclerView;
     private PriceViewAdapter mPriceViewAdapter;
 
+    DateFormat dateformat = DateFormat.getDateInstance(DateFormat.LONG, Locale.US);
+
     public static PriceResultFragment newInstance(UUID grocerylistid) {
         PriceResultFragment fragment = new PriceResultFragment();
         Bundle bundle = new Bundle();
@@ -50,6 +53,7 @@ public class PriceResultFragment extends Fragment{
         super.onCreate(savedInstanceState);
         mGroceryListID = (UUID) getArguments().getSerializable(ARG_GROCERYLISTID);
         selectedStores = KomperBase.getKomperBase(getActivity()).getSelectedStore();
+
     }
 
     @Nullable
@@ -70,6 +74,11 @@ public class PriceResultFragment extends Fragment{
             mPriceRecyclerView.setAdapter(mPriceViewAdapter);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
     private class PriceViewHolder extends RecyclerView.ViewHolder{
 
         private Store mStore;
@@ -88,12 +97,20 @@ public class PriceResultFragment extends Fragment{
             mPriceGLPrice = (TextView)itemView.findViewById(R.id.price_gcl_totalprice);
             mPriceStore = (TextView)itemView.findViewById(R.id.price_storename);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = ItemPriceActivity.newIntent(getActivity(), mGroceryListID, mStore.getStoreId());
+                    startActivity(intent);
+                }
+            });
+
         }
 
         public void bind(Store store){
             mStore = store;
             mPriceGLLabel.setText(getString(R.string.grocery_label,KomperBase.getKomperBase(getActivity()).getGroceryList(mGroceryListID).getLabel()));
-            mPriceGLDate.setText(getString(R.string.date_created, KomperBase.getKomperBase(getActivity()).getGroceryList(mGroceryListID).getDate().toString()));
+            mPriceGLDate.setText(getString(R.string.date_created, dateformat.format(KomperBase.getKomperBase(getActivity()).getGroceryList(mGroceryListID).getDate())));
             mPriceTotalItems.setText(getString(R.string.item_number, String.valueOf(KomperBase.getKomperBase(getActivity()).getNumberOfItems(mGroceryListID))));
             mPriceGLPrice.setText(getString(R.string.total_price, String.valueOf(KomperBase.getKomperBase(getActivity()).getTotalPrice(mGroceryListID,mStore.getStoreId()))));
             mPriceStore.setText(getString(R.string.store_name, KomperBase.getKomperBase(getActivity()).getStore(mStore.getStoreId()).getStoreName()));
