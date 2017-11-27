@@ -6,7 +6,11 @@ package csci4540.ecu.komper.activities;
 
 public class EnterItem {
 
-    /*private static final int REQUEST_DATE = 0;
+
+
+    /*
+    JSON url = http://studentrecruiter.x10host.com/root/komer/json.php
+    private static final int REQUEST_DATE = 0;
     private static final String DIALOG_DATE = "Dialog Date";
 
     private GroceryList mGroceryList;
