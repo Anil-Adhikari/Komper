@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <uses-feature
+            android:name="android.hardware.camera"
+            android:required="false" />
+        <uses-feature
+            android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+
         <activity
             android:name=".activities.SignInActivity"
             android:screenOrientation="portrait" />
@@ -53,6 +59,18 @@
             android:label="Search Result"/>
         <activity android:name=".activities.searchresult.ItemPriceActivity"
             android:label="Item Price Detail" />
+        <activity android:name=".activities.searchresult.CheckoutActivity"
+            android:label="Checkout Item" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="csci4540.ecu.komper.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/files" />
+        </provider>
 
     </application>
 

@@ -12,6 +12,7 @@ public class KomperDbSchema {
             public static final String LABEL = "grocerylist_label";
             public static final String DATE = "grocerylist_created_date";
             public static final String TOTALPRICE = "grocerylist_total_price";
+            public static final String CHECKED = "grocerylist_checked";
         }
 
     }
@@ -26,6 +27,7 @@ public class KomperDbSchema {
             public static final String ENTEREDDATE = "item_entered_date";
             public static final String PRICE = "item_price";
             public static final String GROCERYLISTID = "grocerylist_id";
+            public static final String CHECKED = "item_checked";
         }
     }
     public static final class StoreTable{

@@ -1,11 +1,13 @@
 package csci4540.ecu.komper.activities.grocerylist;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -159,7 +161,14 @@ public class AddItemFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 onPause();
-                getActivity().finish();
+                if(mQuantity.getText().toString().equals(" ") || mQuantity.getText().toString().equals("0")){
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                    alertDialog.setTitle("ERROR");
+                    alertDialog.setMessage("Quantity could not be 0 or null");
+                    alertDialog.show();
+                }else {
+                    getActivity().finish();
+                }
             }
         });
         return view;

@@ -2,6 +2,7 @@ package csci4540.ecu.komper.activities.grocerylist;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -152,9 +153,13 @@ public class LIstItemListFragment extends Fragment {
             mBrandName.setText(getString(R.string.brand_name,item.getItemBrandName()));
             mExpiryDate.setText(getString(R.string.expiry_date, dateformat.format(item.getItemExpiryDate())));
             mQuantity.setText(getString(R.string.quantity, numberFormat.format(item.getItemQuantity())));
-            mPrice.setText(getString(R.string.price, String.format("%.2f",item.getItemPrice())));
-            // TODO : remove comment when we get price form store
-            mPrice.setVisibility(View.GONE);
+            mPrice.setText(getString(R.string.price, String.format("%.2f",item.getItemPrice() * item.getItemQuantity())));
+            if(mItem.getChecked().equals("no")) {
+                mPrice.setText("Price: $0.0");
+                mPrice.setTextColor(Color.parseColor("#B82837"));
+            }else{
+                mPrice.setTextColor(Color.parseColor("#4FAF49"));
+            }
         }
 
         @Override

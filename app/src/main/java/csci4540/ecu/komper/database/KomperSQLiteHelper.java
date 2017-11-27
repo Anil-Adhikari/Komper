@@ -32,7 +32,9 @@ public class KomperSQLiteHelper extends SQLiteOpenHelper {
                 GroceryListTable.Cols.UUID + ", "+
                 GroceryListTable.Cols.LABEL + ", "+
                 GroceryListTable.Cols.DATE + ", "+
-                GroceryListTable.Cols.TOTALPRICE + ")" ;
+                GroceryListTable.Cols.TOTALPRICE + ", " +
+                GroceryListTable.Cols.CHECKED +
+                ")" ;
 
         String CREATE_ITEMS_TABLE = "CREATE TABLE " + ItemTable.NAME +" ( " +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -43,7 +45,8 @@ public class KomperSQLiteHelper extends SQLiteOpenHelper {
                 ItemTable.Cols.ENTEREDDATE + ", " +
                 ItemTable.Cols.EXPIRYDATE + ", " +
                 ItemTable.Cols.PRICE + ", " +
-                ItemTable.Cols.GROCERYLISTID
+                ItemTable.Cols.GROCERYLISTID + ", " +
+                ItemTable.Cols.CHECKED
                 //"FOREIGN KEY (" + ItemTable.Cols.GROCERYLISTID + ") REFERENCES " + GroceryListTable.NAME + "(grocerylist_uuid) "
                 + ")" ;
 

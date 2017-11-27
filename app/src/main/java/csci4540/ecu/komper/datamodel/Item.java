@@ -16,6 +16,7 @@ public class Item {
     private String itemBrandName;
     private double itemQuantity;
     private double itemPrice;
+    private String checked;
 
     public Item() {
         this(UUID.randomUUID());
@@ -29,6 +30,7 @@ public class Item {
         this.itemBrandName = "";
         this.itemQuantity = 0.0;
         this.itemPrice = 0.0;
+        this.checked = "no";
     }
 
     public UUID getItemID() {
@@ -81,5 +83,13 @@ public class Item {
 
     public void setItemPrice(double itemPrice) {
         this.itemPrice = itemPrice;
+    }
+
+    public String getChecked() {
+        return checked;
+    }
+
+    public void setChecked(String checked) {
+        this.checked = checked;
     }
 }

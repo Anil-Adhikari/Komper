@@ -47,4 +47,6 @@
     <string name="view_result">View Result</string>
     <string name="checkout">Checkout</string>
 
+    <string name="ok">OK</string>
+
 </resources>

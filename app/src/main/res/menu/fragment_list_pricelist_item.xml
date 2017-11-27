@@ -3,9 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/openmap"
+        android:title="Get Route to Store"
+        app:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_open_map" />
+
+    <item
         android:id="@+id/checkout"
         android:title="@string/checkout"
         app:showAsAction="ifRoom|withText"
         android:icon="@drawable/ic_cart"/>
+
+
 
 </menu>

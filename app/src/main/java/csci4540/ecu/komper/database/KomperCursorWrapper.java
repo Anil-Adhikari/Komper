@@ -32,11 +32,13 @@ public class KomperCursorWrapper extends CursorWrapper {
         String label = getString(getColumnIndex(GroceryListTable.Cols.LABEL));
         double price = getDouble(getColumnIndex(GroceryListTable.Cols.TOTALPRICE));
         long date = getLong(getColumnIndex(GroceryListTable.Cols.DATE));
+        String checked = getString(getColumnIndex(GroceryListTable.Cols.CHECKED));
 
         GroceryList groceryList = new GroceryList(UUID.fromString(uuidString));
         groceryList.setLabel(label);
         groceryList.setDate(new Date(date));
         groceryList.setTotalPrice(price);
+        groceryList.setChecked(checked);
 
         return groceryList;
     }
@@ -49,6 +51,7 @@ public class KomperCursorWrapper extends CursorWrapper {
         double price = getDouble(getColumnIndex(ItemTable.Cols.PRICE));
         long enteredDte = getLong(getColumnIndex(ItemTable.Cols.ENTEREDDATE));
         long expiryDate = getLong(getColumnIndex(ItemTable.Cols.EXPIRYDATE));
+        String checked = getString(getColumnIndex(ItemTable.Cols.CHECKED));
 
         Item item = new Item(UUID.fromString(uuidString));
         item.setItemName(itemname);
@@ -57,6 +60,7 @@ public class KomperCursorWrapper extends CursorWrapper {
         item.setItemPrice(price);
         item.setItemEnteredDate(new Date(enteredDte));
         item.setItemExpiryDate(new Date(expiryDate));
+        item.setChecked(checked);
 
         return item;
     }

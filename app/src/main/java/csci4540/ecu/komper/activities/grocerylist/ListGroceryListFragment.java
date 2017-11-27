@@ -1,9 +1,12 @@
 package csci4540.ecu.komper.activities.grocerylist;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -15,10 +18,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -40,6 +47,8 @@ public class ListGroceryListFragment extends Fragment {
 
     private static final String ARG_GOOGLE_CLIENT = "google_client";
     private static final String TAG = "ListGroceryListFragment";
+
+    private static final String DIALOG_IMAGE = "Receipt Image";
 
     private GoogleApiClient mGoogleClient;
 
@@ -140,6 +149,7 @@ public class ListGroceryListFragment extends Fragment {
         private TextView mGLDate;
         private TextView mGLPrice;
         private TextView mTotalItems;
+        private ImageView mReceiptImage;
 
         public GroceryListViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.fragment_list_grocerylist, parent, false));
@@ -148,6 +158,16 @@ public class ListGroceryListFragment extends Fragment {
             mGLDate = (TextView) itemView.findViewById((R.id.gcl_date));
             mGLPrice = (TextView) itemView.findViewById(R.id.gcl_price);
             mTotalItems = (TextView) itemView.findViewById(R.id.gcl_totalnumberofItems);
+            mReceiptImage = (ImageView) itemView.findViewById(R.id.grocery_list_receipt_image);
+
+            mReceiptImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FragmentManager manager = getFragmentManager();
+                    DialogFragment imageDialog = ImageViewFragment.newInstance(mGroceryList.getID());
+                    imageDialog.show(manager, DIALOG_IMAGE);
+                }
+            });
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -178,40 +198,9 @@ public class ListGroceryListFragment extends Fragment {
                                     upDateGroceryListUI(list);
                                     return true;
                                 case R.id.searchinstore_grocerylist:
-                                    Intent intent2 = StoreActivity.newIntent(getActivity(), mGroceryList.getID());
-                                    startActivity(intent2);
-                                    /*List<Item> items = KomperBase.getKomperBase(getActivity()).getAllItems(mGroceryList.getID());
-                                    for (Item groceryItem : items) {
-                                        WalmartRestClient.query(
-                                                getActivity(),                          // Context
-                                                groceryItem.getItemName(),              // Item name to search
-                                                null, new JsonHttpResponseHandler() {   // Handler for search response
-                                                    @Override
-                                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                                        try {
-                                                            JSONArray itemsList = (JSONArray) response.get("items");
-                                                            JSONObject item = (JSONObject) itemsList.get(0);
-                                                            Toast.makeText(getActivity(),
-                                                                    item.getString("name") + " " + String.valueOf(item.getDouble("salePrice")),
-                                                                    Toast.LENGTH_SHORT).show();
-                                                        } catch (JSONException e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
+                                        Intent intent2 = StoreActivity.newIntent(getActivity(), mGroceryList.getID());
+                                        startActivity(intent2);
 
-                                                    @Override
-                                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                                                        // NOTE: Seems necessary to satisfy loopj.
-                                                        super.onFailure(statusCode, headers, throwable, errorResponse);
-                                                        throwable.printStackTrace();
-                                                    }
-
-                                                    @Override
-                                                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                                        Log.d(TAG, responseString);
-                                                    }
-                                                });
-                                    }*/
                                     return true;
                                 default:
                                     return true;
@@ -233,10 +222,21 @@ public class ListGroceryListFragment extends Fragment {
             mGLLabel.setText(getString(R.string.grocery_label, mGroceryList.getLabel()));
             mGLDate.setText(getString(R.string.date_created, dateformat.format(mGroceryList.getDate())));
             mGLPrice.setText(getString(R.string.total_price, String.format("%.2f",mGroceryList.getTotalPrice())));
-            // TODO: remove gone when total price is available
-            mGLPrice.setVisibility(View.GONE);
+            if(mGroceryList.getChecked().equals("no")) {
+                mGLPrice.setTextColor(Color.parseColor("#B82837"));
+                mReceiptImage.setVisibility(View.GONE);
+            }else{
+                mGLPrice.setTextColor(Color.parseColor("#4FAF49"));
+                File image = KomperBase.getKomperBase(getActivity()).getLatestModifiedFile(mGroceryList.getID());
+                if(image.length() != 0) {
+                    Glide.with(mReceiptImage.getContext()).load(image).fitCenter().into(mReceiptImage);
+                }else{
+                    mReceiptImage.setVisibility(View.GONE);
+                }
+            }
             mTotalItems.setText(getString(R.string.item_number, String.valueOf(numberOfItems)));
         }
+
     }
     private class GroceryListAdapter extends RecyclerView.Adapter<GroceryListViewHolder>{
 

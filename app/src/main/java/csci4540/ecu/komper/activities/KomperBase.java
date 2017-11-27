@@ -5,7 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -61,6 +63,7 @@ public class KomperBase {
         values.put(GroceryListTable.Cols.LABEL, list.getLabel());
         values.put(GroceryListTable.Cols.DATE, list.getDate().getTime());
         values.put(GroceryListTable.Cols.TOTALPRICE, list.getTotalPrice());
+        values.put(GroceryListTable.Cols.CHECKED, list.getChecked());
 
         return values;
     }
@@ -159,6 +162,7 @@ public class KomperBase {
         values.put(ItemTable.Cols.EXPIRYDATE, item.getItemExpiryDate().getTime());
         values.put(ItemTable.Cols.PRICE, item.getItemPrice());
         values.put(ItemTable.Cols.GROCERYLISTID, grocerylistId.toString());
+        values.put(ItemTable.Cols.CHECKED, item.getChecked());
 
         return values;
     }
@@ -181,6 +185,26 @@ public class KomperBase {
             cursor.close();
         }
 
+        return itemList;
+    }
+
+    public List<Item> getCheckedoutItems(UUID groceryListID) {
+        List<Item> itemList = new ArrayList<>();
+        String whereClause = ItemTable.Cols.GROCERYLISTID + " = ?" + " AND " + ItemTable.Cols.CHECKED + " = ?";
+        String[] whereArgs = new String[]{groceryListID.toString(), "yes"};
+        String tableName = ItemTable.NAME;
+
+        KomperCursorWrapper cursor = queryDb(whereClause, whereArgs, tableName);
+
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                itemList.add(cursor.getItem());
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
         return itemList;
     }
 
@@ -368,6 +392,19 @@ public class KomperBase {
         return totalprice;
     }
 
+    public double getTotalCheckedPrice(UUID grocerylistid, UUID storeid){
+        List<Price> prices = getPrices(grocerylistid, storeid);
+        double totalprice = 0.0;
+        for(Price price : prices){
+            Item item = getItem(price.getItemId());
+            if(item.getChecked().equals("yes")) {
+                double quantity = item.getItemQuantity();
+                totalprice += Double.parseDouble(price.getPrice()) * quantity;
+            }
+        }
+        return totalprice;
+    }
+
     private KomperCursorWrapper queryDb(String whereClause, String[] whereArgs, String tableName){
         Cursor cursor = mDatabase.query(tableName,
                 null,
@@ -379,5 +416,26 @@ public class KomperBase {
         return new KomperCursorWrapper(cursor);
     }
 
+    public File getNewReceiptPhotoFile(UUID grocerylistID){
+        File fileDir = mContext.getFilesDir();
+        return new File(fileDir, "IMG_"+grocerylistID.toString()+new Date()+".jpg");
 
+    }
+
+    public File getLatestModifiedFile(UUID grocerylistID){
+        File fileDir = mContext.getFilesDir();
+        //File parentDir = fileDir.getParentFile();
+        File[] files = fileDir.listFiles();
+        long lastmod = Long.MIN_VALUE;
+        File choice = null;
+        for(File file: files){
+            if(file.getName().contains(grocerylistID.toString())){
+                if(file.lastModified() > lastmod) {
+                    choice = file;
+                    lastmod = choice.lastModified();
+                }
+            }
+        }
+        return choice;
+    }
 }

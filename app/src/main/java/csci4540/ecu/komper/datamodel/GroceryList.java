@@ -15,6 +15,7 @@ public class GroceryList {
     private String label;
     private Date date;
     private double totalPrice;
+    private String checked;
 
 
 
@@ -27,6 +28,7 @@ public class GroceryList {
         label = " ";
         date = new Date();
         totalPrice = 0.0;
+        checked = "no";
     }
 
     public UUID getID() {
@@ -55,5 +57,13 @@ public class GroceryList {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public String getChecked() {
+        return checked;
+    }
+
+    public void setChecked(String checked) {
+        this.checked = checked;
     }
 }
