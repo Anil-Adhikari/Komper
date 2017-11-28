@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
@@ -65,6 +66,9 @@ public class CheckoutFragment extends Fragment {
     private UUID mStoreID;
 
     private File mPhotoFile;
+
+    private boolean mUploadedPhoto = false;
+
     private static final int REQUEST_PHOTO = 1;
 
     public static CheckoutFragment newInstance(UUID groceryListId, UUID storeId) {
@@ -143,9 +147,14 @@ public class CheckoutFragment extends Fragment {
         finalize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().finish();
-                Intent intent = new Intent(getActivity(), ListGroceryListActivity.class);
-                startActivity(intent);
+                if (!mUploadedPhoto) {
+                    Toast.makeText(getActivity(), R.string.upload_receipt_prompt,
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    getActivity().finish();
+                    Intent intent = new Intent(getActivity(), ListGroceryListActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -155,6 +164,8 @@ public class CheckoutFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_PHOTO) {
+            mUploadedPhoto = true;
+
             Uri uri = FileProvider.getUriForFile(getActivity(),
                     "csci4540.ecu.komper.fileprovider",
                     mPhotoFile);

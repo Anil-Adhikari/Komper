@@ -48,5 +48,6 @@
     <string name="checkout">Checkout</string>
 
     <string name="ok">OK</string>
+    <string name="upload_receipt_prompt">Upload a receipt first.</string>
 
 </resources>
