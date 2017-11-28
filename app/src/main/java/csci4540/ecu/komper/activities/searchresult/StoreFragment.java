@@ -272,9 +272,9 @@ public class StoreFragment extends Fragment {
                             }
                         }
                     }
-                    store.setSelected("no");
+                    store.setSelected("yes");
                     KomperBase.getKomperBase(getActivity()).updateStore(store);
-                    Toast.makeText(getActivity(), "Your Items are not in Komper Store. Sorry for the inconvenience", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Your Items are not in Komper Store. Sorry for the inconvenience", Toast.LENGTH_SHORT).show();
 
                 }
             }.execute("");
