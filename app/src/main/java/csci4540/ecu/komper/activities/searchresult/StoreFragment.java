@@ -144,9 +144,19 @@ public class StoreFragment extends Fragment {
             List<Item> items = KomperBase.getKomperBase(getActivity()).getAllItems(mGroceryListID);
             if (items.size() > 0) {
                 for (final Item groceryItem : items) {
+                    // NOTE (Ryan): This is bad code that I wrote, but I had to be quick.
+                    String query;
+                    if (!groceryItem.getItemBrandName().isEmpty()) {
+                        query = groceryItem.getItemName() +
+                                "&sort=price&order=asc" +
+                                "&facet=on&facet.filter=brand:" + groceryItem.getItemBrandName();
+                    } else {
+                        query = groceryItem.getItemName()+
+                                "&sort=price&order=asc";
+                    }
                     WalmartRestClient.query(
                             getActivity(),                          // Context
-                            groceryItem.getItemName(),              // Item name to search
+                            query,                                  // Query String of the search
                             null, new JsonHttpResponseHandler() {   // Handler for search response
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
