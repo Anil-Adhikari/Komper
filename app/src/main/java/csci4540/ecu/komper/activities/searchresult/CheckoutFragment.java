@@ -147,14 +147,17 @@ public class CheckoutFragment extends Fragment {
         finalize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!mUploadedPhoto) {
+                /*if (!mUploadedPhoto) {
                     Toast.makeText(getActivity(), R.string.upload_receipt_prompt,
                             Toast.LENGTH_SHORT).show();
-                } else {
+                } else {*/
+                Toast.makeText(getActivity(), "Congratulations you have finalized your shopping",
+                        Toast.LENGTH_SHORT).show();
+                finalize.setEnabled(false);
                     getActivity().finish();
                     Intent intent = new Intent(getActivity(), ListGroceryListActivity.class);
                     startActivity(intent);
-                }
+                //}
             }
         });
 
@@ -164,7 +167,7 @@ public class CheckoutFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_PHOTO) {
-            mUploadedPhoto = true;
+            //mUploadedPhoto = true;
 
             Uri uri = FileProvider.getUriForFile(getActivity(),
                     "csci4540.ecu.komper.fileprovider",

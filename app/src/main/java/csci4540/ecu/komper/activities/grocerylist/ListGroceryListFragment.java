@@ -228,7 +228,7 @@ public class ListGroceryListFragment extends Fragment {
             }else{
                 mGLPrice.setTextColor(Color.parseColor("#4FAF49"));
                 File image = KomperBase.getKomperBase(getActivity()).getLatestModifiedFile(mGroceryList.getID());
-                if(image.length() != 0) {
+                if(image.exists()){
                     Glide.with(mReceiptImage.getContext()).load(image).fitCenter().into(mReceiptImage);
                 }else{
                     mReceiptImage.setVisibility(View.GONE);

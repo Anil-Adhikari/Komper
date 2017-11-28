@@ -161,14 +161,7 @@ public class AddItemFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 onPause();
-                if(mQuantity.getText().toString().equals(" ") || mQuantity.getText().toString().equals("0")){
-                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                    alertDialog.setTitle("ERROR");
-                    alertDialog.setMessage("Quantity could not be 0 or null");
-                    alertDialog.show();
-                }else {
-                    getActivity().finish();
-                }
+
             }
         });
         return view;
@@ -177,6 +170,14 @@ public class AddItemFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        if(mQuantity.getText().toString().equals(" ") || mQuantity.getText().toString().equals("0")){
+            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+            alertDialog.setTitle("ALERT");
+            alertDialog.setMessage("Quantity could not be 0 or null");
+            alertDialog.show();
+        }else {
+            getActivity().finish();
+        }
         mItem.setItemQuantity(Double.parseDouble(mQuantity.getText().toString()));
         KomperBase.getKomperBase(getActivity()).updateItem(mItem, grocerylistId);
     }

@@ -2,6 +2,7 @@ package csci4540.ecu.komper.activities.searchresult;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -24,7 +25,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import csci4540.ecu.komper.R;
@@ -57,6 +67,9 @@ public class StoreFragment extends Fragment {
 
     private ProgressDialog progress;
 
+    DateFormat dateformat = DateFormat.getDateInstance(DateFormat.LONG, Locale.US);
+
+
     public static StoreFragment newInstance(UUID grocerylistID) {
         StoreFragment fragment = new StoreFragment();
         Bundle bundle = new Bundle();
@@ -87,6 +100,7 @@ public class StoreFragment extends Fragment {
         updateUI();
 
         searchButton = (Button) view.findViewById(R.id.search_instore_button);
+        searchButton.setText(getString(R.string.search_button));
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,6 +137,9 @@ public class StoreFragment extends Fragment {
     }
 
     private void searchInStore(final Store store){
+
+        final List<Item> komperGroceryList = new ArrayList<>();
+
         if(store.getStoreName().equals(WALMART)) {
             List<Item> items = KomperBase.getKomperBase(getActivity()).getAllItems(mGroceryListID);
             if (items.size() > 0) {
@@ -174,7 +191,83 @@ public class StoreFragment extends Fragment {
                 searchStatus = false;
             }
         }else if (store.getStoreName().equals(KOMPER)) {
-            Toast.makeText(getActivity(), "Store: " + KOMPER, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), "Store: " + KOMPER, Toast.LENGTH_SHORT).show();
+            final List<Item> itemsForKomper = KomperBase.getKomperBase(getActivity()).getAllItems(mGroceryListID);
+            new AsyncTask<String, Integer, String>() {
+                @Override
+                protected String doInBackground(String... params) {
+
+                    StringBuilder responseString = new StringBuilder();
+                    try {
+                        HttpURLConnection urlConnection = (HttpURLConnection) new URL("http://studentrecruiter.x10host.com/root/komer/json.php").openConnection();
+                        urlConnection.setRequestMethod("GET");
+                        int responseCode = urlConnection.getResponseCode();
+                        if (responseCode == 200){
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                            String line;
+                            while ((line = reader.readLine()) != null) {
+                                responseString.append(line);
+                            }
+                        }
+                        urlConnection.disconnect();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    return responseString.toString();
+                }
+
+                @Override
+                protected void onPostExecute(String o) {
+                    progress.dismiss();
+                    try {
+                        JSONObject jsonObject = new JSONObject(o);
+                        JSONArray itemList = (JSONArray) jsonObject.get("result");
+                        for(int i = 0; i < itemList.length(); i++){
+                            JSONObject item = (JSONObject) itemList.get(i);
+                            String itemname = item.getString("item");
+                            String price = item.getString("price");
+                            String exipryDate = item.getString("expiryDate");
+
+                            Item newItem = new Item();
+                            newItem.setItemName(itemname);
+                            newItem.setItemPrice(Double.parseDouble(price));
+                            try {
+                                newItem.setItemExpiryDate(dateformat.parse(exipryDate));
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            komperGroceryList.add(newItem);
+                            //Toast.makeText(getActivity(), "name #"+itemname+", price #"+price+"expiryDate #"+exipryDate, Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (JSONException e) { e.printStackTrace(); }
+
+                    compareLists(komperGroceryList, itemsForKomper);
+                    searchStatus = true;
+
+                }
+
+                private void compareLists(List<Item> komperGroceryList, List<Item> itemsForKomper) {
+                    for(Item item: komperGroceryList){
+                        for(Item myItem: itemsForKomper){
+                            if(item.getItemName().equals(myItem.getItemName())){
+                                mPrice = createPrice(String.valueOf(item.getItemPrice()), myItem.getItemID(), store.getStoreId());
+                                if (KomperBase.getKomperBase(getActivity()).getPrice(mGroceryListID, store.getStoreId(), myItem.getItemID()) == null) {
+                                    KomperBase.getKomperBase(getActivity()).addPrice(mPrice);
+                                } else {
+                                    Price oldprice = KomperBase.getKomperBase(getActivity()).getPrice(mGroceryListID, store.getStoreId(), myItem.getItemID());
+                                    KomperBase.getKomperBase(getActivity()).updatePrice(mPrice, oldprice.getPriceId());
+                                }
+                            }
+                        }
+                    }
+                    store.setSelected("no");
+                    KomperBase.getKomperBase(getActivity()).updateStore(store);
+                    Toast.makeText(getActivity(), "Your Items are not in Komper Store. Sorry for the inconvenience", Toast.LENGTH_SHORT).show();
+
+                }
+            }.execute("");
         }
     }
 

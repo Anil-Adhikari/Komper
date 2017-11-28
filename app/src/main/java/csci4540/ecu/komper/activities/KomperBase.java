@@ -427,7 +427,7 @@ public class KomperBase {
         //File parentDir = fileDir.getParentFile();
         File[] files = fileDir.listFiles();
         long lastmod = Long.MIN_VALUE;
-        File choice = null;
+        File choice = new File(fileDir, "temp.jpg");
         for(File file: files){
             if(file.getName().contains(grocerylistID.toString())){
                 if(file.lastModified() > lastmod) {
